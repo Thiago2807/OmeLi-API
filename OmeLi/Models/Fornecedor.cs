@@ -8,7 +8,7 @@ public class Fornecedor
 {
     public Fornecedor()
     {
-        EditorasFornecedores = new Collection<EditoraFornecedor>();
+        Fornecedores = new Collection<EditoraFornecedor>();
     }
 
     [Key]
