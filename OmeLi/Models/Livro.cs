@@ -1,10 +1,17 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.ObjectModel;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace OmeLi.Models;
 
 public class Livro
 {
+    public Livro()
+    {
+        LivrosEstoque = new Collection<LivroEstoque>();
+        LivrosPessoas = new Collection<LivroPessoa>();
+    }
+
     [Key]
     public int LivroId { get; set; }
 
@@ -21,4 +28,8 @@ public class Livro
 
     public int EditoraId { get; set; }
     public Editora? Editora { get; set; }
+
+    public ICollection<LivroEstoque>? LivrosEstoque { get; set; }
+
+    public ICollection<LivroPessoa>? LivrosPessoas { get; set; }
 }

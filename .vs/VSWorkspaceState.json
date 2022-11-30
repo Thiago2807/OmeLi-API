@@ -1,7 +1,9 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\OmeLi",
+    "\\OmeLi\\Data"
   ],
-  "SelectedNode": "\\OmeLi.sln",
+  "SelectedNode": "\\OmeLi\\Data\\BDContext.cs",
   "PreviewInSolutionExplorer": false
 }
