@@ -36,6 +36,9 @@ namespace OmeLi.Migrations
                     b.Property<string>("EnderecoEmail")
                         .HasColumnType("varchar(150)");
 
+                    b.Property<int>("FornecedorId")
+                        .HasColumnType("int");
+
                     b.Property<string>("NumeroTelefone")
                         .IsRequired()
                         .HasColumnType("varchar(20)");
@@ -44,6 +47,8 @@ namespace OmeLi.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("ContatoFornecedorId");
+
+                    b.HasIndex("FornecedorId");
 
                     b.HasIndex("TipoTelefoneId");
 
@@ -140,7 +145,7 @@ namespace OmeLi.Migrations
 
                     b.HasKey("EstoqueId");
 
-                    b.ToTable("Estoque");
+                    b.ToTable("Estoques");
                 });
 
             modelBuilder.Entity("OmeLi.Models.Fornecedor", b =>
@@ -154,9 +159,6 @@ namespace OmeLi.Migrations
                     b.Property<string>("CnpjFornecedor")
                         .HasColumnType("char(14)");
 
-                    b.Property<int>("ContatoFornecedorId")
-                        .HasColumnType("int");
-
                     b.Property<int>("EnderecoFornecedorId")
                         .HasColumnType("int");
 
@@ -164,8 +166,6 @@ namespace OmeLi.Migrations
                         .HasColumnType("varchar(60)");
 
                     b.HasKey("FornecedorId");
-
-                    b.HasIndex("ContatoFornecedorId");
 
                     b.HasIndex("EnderecoFornecedorId")
                         .IsUnique();
@@ -202,7 +202,7 @@ namespace OmeLi.Migrations
 
                     b.HasIndex("StatusLivroId");
 
-                    b.ToTable("Livro");
+                    b.ToTable("Livros");
                 });
 
             modelBuilder.Entity("OmeLi.Models.LivroEstoque", b =>
@@ -231,7 +231,7 @@ namespace OmeLi.Migrations
 
                     b.HasIndex("LivroId");
 
-                    b.ToTable("LivroEstoque");
+                    b.ToTable("LivrosEstoque");
                 });
 
             modelBuilder.Entity("OmeLi.Models.LivroPessoa", b =>
@@ -254,7 +254,7 @@ namespace OmeLi.Migrations
 
                     b.HasIndex("PessoaId");
 
-                    b.ToTable("LivroPessoa");
+                    b.ToTable("LivrosPessoas");
                 });
 
             modelBuilder.Entity("OmeLi.Models.Pessoa", b =>
@@ -284,7 +284,7 @@ namespace OmeLi.Migrations
 
                     b.HasIndex("TipoPessoaId");
 
-                    b.ToTable("Pessoa");
+                    b.ToTable("Pessoas");
                 });
 
             modelBuilder.Entity("OmeLi.Models.StatusLivro", b =>
@@ -300,7 +300,7 @@ namespace OmeLi.Migrations
 
                     b.HasKey("StatusLivroId");
 
-                    b.ToTable("StatusLivro");
+                    b.ToTable("StatusLivros");
                 });
 
             modelBuilder.Entity("OmeLi.Models.TipoPessoa", b =>
@@ -316,7 +316,7 @@ namespace OmeLi.Migrations
 
                     b.HasKey("TipoPessoaId");
 
-                    b.ToTable("TipoPessoa");
+                    b.ToTable("TiposPessoas");
                 });
 
             modelBuilder.Entity("OmeLi.Models.TipoTelefone", b =>
@@ -337,11 +337,19 @@ namespace OmeLi.Migrations
 
             modelBuilder.Entity("OmeLi.Models.ContatoFornecedor", b =>
                 {
+                    b.HasOne("OmeLi.Models.Fornecedor", "Fornecedor")
+                        .WithMany("ContatoFornecedor")
+                        .HasForeignKey("FornecedorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("OmeLi.Models.TipoTelefone", "TipoTelefone")
                         .WithMany("ContatosFornecedores")
                         .HasForeignKey("TipoTelefoneId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Fornecedor");
 
                     b.Navigation("TipoTelefone");
                 });
@@ -367,19 +375,11 @@ namespace OmeLi.Migrations
 
             modelBuilder.Entity("OmeLi.Models.Fornecedor", b =>
                 {
-                    b.HasOne("OmeLi.Models.ContatoFornecedor", "ContatoFornecedor")
-                        .WithMany("Fornecedores")
-                        .HasForeignKey("ContatoFornecedorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("OmeLi.Models.EnderecoFornecedor", "EnderecoFornecedor")
                         .WithOne("Fornecedor")
                         .HasForeignKey("OmeLi.Models.Fornecedor", "EnderecoFornecedorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("ContatoFornecedor");
 
                     b.Navigation("EnderecoFornecedor");
                 });
@@ -452,11 +452,6 @@ namespace OmeLi.Migrations
                     b.Navigation("TipoPessoa");
                 });
 
-            modelBuilder.Entity("OmeLi.Models.ContatoFornecedor", b =>
-                {
-                    b.Navigation("Fornecedores");
-                });
-
             modelBuilder.Entity("OmeLi.Models.Editora", b =>
                 {
                     b.Navigation("Editoras");
@@ -476,6 +471,8 @@ namespace OmeLi.Migrations
 
             modelBuilder.Entity("OmeLi.Models.Fornecedor", b =>
                 {
+                    b.Navigation("ContatoFornecedor");
+
                     b.Navigation("Fornecedores");
                 });
 

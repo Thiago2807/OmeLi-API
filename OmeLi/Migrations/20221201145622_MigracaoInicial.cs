@@ -44,7 +44,7 @@ namespace OmeLi.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Estoque",
+                name: "Estoques",
                 columns: table => new
                 {
                     EstoqueId = table.Column<int>(type: "int", nullable: false)
@@ -52,11 +52,11 @@ namespace OmeLi.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Estoque", x => x.EstoqueId);
+                    table.PrimaryKey("PK_Estoques", x => x.EstoqueId);
                 });
 
             migrationBuilder.CreateTable(
-                name: "StatusLivro",
+                name: "StatusLivros",
                 columns: table => new
                 {
                     StatusLivroId = table.Column<int>(type: "int", nullable: false)
@@ -65,11 +65,11 @@ namespace OmeLi.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_StatusLivro", x => x.StatusLivroId);
+                    table.PrimaryKey("PK_StatusLivros", x => x.StatusLivroId);
                 });
 
             migrationBuilder.CreateTable(
-                name: "TipoPessoa",
+                name: "TiposPessoas",
                 columns: table => new
                 {
                     TipoPessoaId = table.Column<int>(type: "int", nullable: false)
@@ -78,7 +78,7 @@ namespace OmeLi.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TipoPessoa", x => x.TipoPessoaId);
+                    table.PrimaryKey("PK_TiposPessoas", x => x.TipoPessoaId);
                 });
 
             migrationBuilder.CreateTable(
@@ -95,7 +95,28 @@ namespace OmeLi.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Livro",
+                name: "Fornecedores",
+                columns: table => new
+                {
+                    FornecedorId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    NomeFornecedor = table.Column<string>(type: "varchar(60)", nullable: true),
+                    CnpjFornecedor = table.Column<string>(type: "char(14)", nullable: true),
+                    EnderecoFornecedorId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Fornecedores", x => x.FornecedorId);
+                    table.ForeignKey(
+                        name: "FK_Fornecedores_EnderecosFornecedores_EnderecoFornecedorId",
+                        column: x => x.EnderecoFornecedorId,
+                        principalTable: "EnderecosFornecedores",
+                        principalColumn: "EnderecoFornecedorId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Livros",
                 columns: table => new
                 {
                     LivroId = table.Column<int>(type: "int", nullable: false)
@@ -107,23 +128,23 @@ namespace OmeLi.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Livro", x => x.LivroId);
+                    table.PrimaryKey("PK_Livros", x => x.LivroId);
                     table.ForeignKey(
-                        name: "FK_Livro_Editoras_EditoraId",
+                        name: "FK_Livros_Editoras_EditoraId",
                         column: x => x.EditoraId,
                         principalTable: "Editoras",
                         principalColumn: "EditoraId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Livro_StatusLivro_StatusLivroId",
+                        name: "FK_Livros_StatusLivros_StatusLivroId",
                         column: x => x.StatusLivroId,
-                        principalTable: "StatusLivro",
+                        principalTable: "StatusLivros",
                         principalColumn: "StatusLivroId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Pessoa",
+                name: "Pessoas",
                 columns: table => new
                 {
                     PessoaId = table.Column<int>(type: "int", nullable: false)
@@ -136,11 +157,11 @@ namespace OmeLi.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Pessoa", x => x.PessoaId);
+                    table.PrimaryKey("PK_Pessoas", x => x.PessoaId);
                     table.ForeignKey(
-                        name: "FK_Pessoa_TipoPessoa_TipoPessoaId",
+                        name: "FK_Pessoas_TiposPessoas_TipoPessoaId",
                         column: x => x.TipoPessoaId,
-                        principalTable: "TipoPessoa",
+                        principalTable: "TiposPessoas",
                         principalColumn: "TipoPessoaId",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -154,98 +175,23 @@ namespace OmeLi.Migrations
                     NumeroTelefone = table.Column<string>(type: "varchar(20)", nullable: false),
                     EnderecoEmail = table.Column<string>(type: "varchar(150)", nullable: true),
                     DddTelefone = table.Column<int>(type: "int", nullable: false),
-                    TipoTelefoneId = table.Column<int>(type: "int", nullable: false)
+                    TipoTelefoneId = table.Column<int>(type: "int", nullable: false),
+                    FornecedorId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ContatosFornecedores", x => x.ContatoFornecedorId);
                     table.ForeignKey(
+                        name: "FK_ContatosFornecedores_Fornecedores_FornecedorId",
+                        column: x => x.FornecedorId,
+                        principalTable: "Fornecedores",
+                        principalColumn: "FornecedorId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
                         name: "FK_ContatosFornecedores_TiposTelefones_TipoTelefoneId",
                         column: x => x.TipoTelefoneId,
                         principalTable: "TiposTelefones",
                         principalColumn: "TipoTelefoneId",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "LivroEstoque",
-                columns: table => new
-                {
-                    LivroEstoqueId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    QtdLivro = table.Column<float>(type: "real", nullable: false),
-                    QtdLimiteLivro = table.Column<float>(type: "real", nullable: false),
-                    LivroId = table.Column<int>(type: "int", nullable: false),
-                    EstoqueId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_LivroEstoque", x => x.LivroEstoqueId);
-                    table.ForeignKey(
-                        name: "FK_LivroEstoque_Estoque_EstoqueId",
-                        column: x => x.EstoqueId,
-                        principalTable: "Estoque",
-                        principalColumn: "EstoqueId",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_LivroEstoque_Livro_LivroId",
-                        column: x => x.LivroId,
-                        principalTable: "Livro",
-                        principalColumn: "LivroId",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "LivroPessoa",
-                columns: table => new
-                {
-                    LivroPessoaId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    LivroId = table.Column<int>(type: "int", nullable: false),
-                    PessoaId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_LivroPessoa", x => x.LivroPessoaId);
-                    table.ForeignKey(
-                        name: "FK_LivroPessoa_Livro_LivroId",
-                        column: x => x.LivroId,
-                        principalTable: "Livro",
-                        principalColumn: "LivroId",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_LivroPessoa_Pessoa_PessoaId",
-                        column: x => x.PessoaId,
-                        principalTable: "Pessoa",
-                        principalColumn: "PessoaId",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Fornecedores",
-                columns: table => new
-                {
-                    FornecedorId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    NomeFornecedor = table.Column<string>(type: "varchar(60)", nullable: true),
-                    CnpjFornecedor = table.Column<string>(type: "char(14)", nullable: true),
-                    ContatoFornecedorId = table.Column<int>(type: "int", nullable: false),
-                    EnderecoFornecedorId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Fornecedores", x => x.FornecedorId);
-                    table.ForeignKey(
-                        name: "FK_Fornecedores_ContatosFornecedores_ContatoFornecedorId",
-                        column: x => x.ContatoFornecedorId,
-                        principalTable: "ContatosFornecedores",
-                        principalColumn: "ContatoFornecedorId",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Fornecedores_EnderecosFornecedores_EnderecoFornecedorId",
-                        column: x => x.EnderecoFornecedorId,
-                        principalTable: "EnderecosFornecedores",
-                        principalColumn: "EnderecoFornecedorId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -275,6 +221,65 @@ namespace OmeLi.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "LivrosEstoque",
+                columns: table => new
+                {
+                    LivroEstoqueId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    QtdLivro = table.Column<float>(type: "real", nullable: false),
+                    QtdLimiteLivro = table.Column<float>(type: "real", nullable: false),
+                    LivroId = table.Column<int>(type: "int", nullable: false),
+                    EstoqueId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_LivrosEstoque", x => x.LivroEstoqueId);
+                    table.ForeignKey(
+                        name: "FK_LivrosEstoque_Estoques_EstoqueId",
+                        column: x => x.EstoqueId,
+                        principalTable: "Estoques",
+                        principalColumn: "EstoqueId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_LivrosEstoque_Livros_LivroId",
+                        column: x => x.LivroId,
+                        principalTable: "Livros",
+                        principalColumn: "LivroId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "LivrosPessoas",
+                columns: table => new
+                {
+                    LivroPessoaId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    LivroId = table.Column<int>(type: "int", nullable: false),
+                    PessoaId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_LivrosPessoas", x => x.LivroPessoaId);
+                    table.ForeignKey(
+                        name: "FK_LivrosPessoas_Livros_LivroId",
+                        column: x => x.LivroId,
+                        principalTable: "Livros",
+                        principalColumn: "LivroId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_LivrosPessoas_Pessoas_PessoaId",
+                        column: x => x.PessoaId,
+                        principalTable: "Pessoas",
+                        principalColumn: "PessoaId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ContatosFornecedores_FornecedorId",
+                table: "ContatosFornecedores",
+                column: "FornecedorId");
+
             migrationBuilder.CreateIndex(
                 name: "IX_ContatosFornecedores_TipoTelefoneId",
                 table: "ContatosFornecedores",
@@ -291,77 +296,75 @@ namespace OmeLi.Migrations
                 column: "FornecedorId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Fornecedores_ContatoFornecedorId",
-                table: "Fornecedores",
-                column: "ContatoFornecedorId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Fornecedores_EnderecoFornecedorId",
                 table: "Fornecedores",
                 column: "EnderecoFornecedorId",
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Livro_EditoraId",
-                table: "Livro",
+                name: "IX_Livros_EditoraId",
+                table: "Livros",
                 column: "EditoraId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Livro_StatusLivroId",
-                table: "Livro",
+                name: "IX_Livros_StatusLivroId",
+                table: "Livros",
                 column: "StatusLivroId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_LivroEstoque_EstoqueId",
-                table: "LivroEstoque",
+                name: "IX_LivrosEstoque_EstoqueId",
+                table: "LivrosEstoque",
                 column: "EstoqueId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_LivroEstoque_LivroId",
-                table: "LivroEstoque",
+                name: "IX_LivrosEstoque_LivroId",
+                table: "LivrosEstoque",
                 column: "LivroId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_LivroPessoa_LivroId",
-                table: "LivroPessoa",
+                name: "IX_LivrosPessoas_LivroId",
+                table: "LivrosPessoas",
                 column: "LivroId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_LivroPessoa_PessoaId",
-                table: "LivroPessoa",
+                name: "IX_LivrosPessoas_PessoaId",
+                table: "LivrosPessoas",
                 column: "PessoaId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Pessoa_TipoPessoaId",
-                table: "Pessoa",
+                name: "IX_Pessoas_TipoPessoaId",
+                table: "Pessoas",
                 column: "TipoPessoaId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "ContatosFornecedores");
+
+            migrationBuilder.DropTable(
                 name: "EditorasFornecedores");
 
             migrationBuilder.DropTable(
-                name: "LivroEstoque");
+                name: "LivrosEstoque");
 
             migrationBuilder.DropTable(
-                name: "LivroPessoa");
+                name: "LivrosPessoas");
+
+            migrationBuilder.DropTable(
+                name: "TiposTelefones");
 
             migrationBuilder.DropTable(
                 name: "Fornecedores");
 
             migrationBuilder.DropTable(
-                name: "Estoque");
+                name: "Estoques");
 
             migrationBuilder.DropTable(
-                name: "Livro");
+                name: "Livros");
 
             migrationBuilder.DropTable(
-                name: "Pessoa");
-
-            migrationBuilder.DropTable(
-                name: "ContatosFornecedores");
+                name: "Pessoas");
 
             migrationBuilder.DropTable(
                 name: "EnderecosFornecedores");
@@ -370,13 +373,10 @@ namespace OmeLi.Migrations
                 name: "Editoras");
 
             migrationBuilder.DropTable(
-                name: "StatusLivro");
+                name: "StatusLivros");
 
             migrationBuilder.DropTable(
-                name: "TipoPessoa");
-
-            migrationBuilder.DropTable(
-                name: "TiposTelefones");
+                name: "TiposPessoas");
         }
     }
 }

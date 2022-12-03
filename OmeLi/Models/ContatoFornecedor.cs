@@ -6,11 +6,6 @@ namespace OmeLi.Models;
 
 public class ContatoFornecedor
 {
-    public ContatoFornecedor()
-    {
-        Fornecedores = new Collection<Fornecedor>();
-    }
-
     [Key]
     public int ContatoFornecedorId { get; set; }
 
@@ -27,5 +22,6 @@ public class ContatoFornecedor
     public int TipoTelefoneId { get; set; }
     public TipoTelefone? TipoTelefone { get; set; }
 
-    public ICollection<Fornecedor>? Fornecedores { get; set; }
+    public int FornecedorId { get; set; }
+    public Fornecedor? Fornecedor { get; set; }
 }

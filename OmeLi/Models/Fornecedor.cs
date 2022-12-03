@@ -9,6 +9,7 @@ public class Fornecedor
     public Fornecedor()
     {
         Fornecedores = new Collection<EditoraFornecedor>();
+        ContatoFornecedor = new Collection<ContatoFornecedor>();
     }
 
     [Key]
@@ -20,9 +21,7 @@ public class Fornecedor
     [Column(TypeName = "char(14)")]
     public string? CnpjFornecedor { get; set; }
 
-    //Criando a chave estrangeira referenciando a outra tabela
-    public int ContatoFornecedorId { get; set; }
-    public ContatoFornecedor? ContatoFornecedor { get; set; }
+    public ICollection<ContatoFornecedor> ContatoFornecedor { get; set; }
 
     //Criando a chave estrangeira referenciando a outra tabela
     public int EnderecoFornecedorId { get; set; }
