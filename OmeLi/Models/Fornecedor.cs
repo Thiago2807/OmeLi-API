@@ -23,8 +23,6 @@ public class Fornecedor
 
     public ICollection<ContatoFornecedor> ContatoFornecedor { get; set; }
 
-    //Criando a chave estrangeira referenciando a outra tabela
-    public int EnderecoFornecedorId { get; set; }
     public EnderecoFornecedor? EnderecoFornecedor { get; set; }
 
     public ICollection<EditoraFornecedor>? Fornecedores { get; set; }

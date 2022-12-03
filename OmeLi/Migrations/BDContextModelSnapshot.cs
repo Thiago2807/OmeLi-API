@@ -124,6 +124,9 @@ namespace OmeLi.Migrations
                         .IsRequired()
                         .HasColumnType("varchar(100)");
 
+                    b.Property<int>("FornecedorId")
+                        .HasColumnType("int");
+
                     b.Property<string>("NumeroEndereco")
                         .HasColumnType("varchar(10)");
 
@@ -131,6 +134,9 @@ namespace OmeLi.Migrations
                         .HasColumnType("char(2)");
 
                     b.HasKey("EnderecoFornecedorId");
+
+                    b.HasIndex("FornecedorId")
+                        .IsUnique();
 
                     b.ToTable("EnderecosFornecedores");
                 });
@@ -159,16 +165,10 @@ namespace OmeLi.Migrations
                     b.Property<string>("CnpjFornecedor")
                         .HasColumnType("char(14)");
 
-                    b.Property<int>("EnderecoFornecedorId")
-                        .HasColumnType("int");
-
                     b.Property<string>("NomeFornecedor")
                         .HasColumnType("varchar(60)");
 
                     b.HasKey("FornecedorId");
-
-                    b.HasIndex("EnderecoFornecedorId")
-                        .IsUnique();
 
                     b.ToTable("Fornecedores");
                 });
@@ -373,15 +373,15 @@ namespace OmeLi.Migrations
                     b.Navigation("Fornecedor");
                 });
 
-            modelBuilder.Entity("OmeLi.Models.Fornecedor", b =>
+            modelBuilder.Entity("OmeLi.Models.EnderecoFornecedor", b =>
                 {
-                    b.HasOne("OmeLi.Models.EnderecoFornecedor", "EnderecoFornecedor")
-                        .WithOne("Fornecedor")
-                        .HasForeignKey("OmeLi.Models.Fornecedor", "EnderecoFornecedorId")
+                    b.HasOne("OmeLi.Models.Fornecedor", "Fornecedor")
+                        .WithOne("EnderecoFornecedor")
+                        .HasForeignKey("OmeLi.Models.EnderecoFornecedor", "FornecedorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("EnderecoFornecedor");
+                    b.Navigation("Fornecedor");
                 });
 
             modelBuilder.Entity("OmeLi.Models.Livro", b =>
@@ -459,11 +459,6 @@ namespace OmeLi.Migrations
                     b.Navigation("Livros");
                 });
 
-            modelBuilder.Entity("OmeLi.Models.EnderecoFornecedor", b =>
-                {
-                    b.Navigation("Fornecedor");
-                });
-
             modelBuilder.Entity("OmeLi.Models.Estoque", b =>
                 {
                     b.Navigation("EstoqueLivros");
@@ -472,6 +467,8 @@ namespace OmeLi.Migrations
             modelBuilder.Entity("OmeLi.Models.Fornecedor", b =>
                 {
                     b.Navigation("ContatoFornecedor");
+
+                    b.Navigation("EnderecoFornecedor");
 
                     b.Navigation("Fornecedores");
                 });

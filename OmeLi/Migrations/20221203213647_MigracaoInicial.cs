@@ -25,25 +25,6 @@ namespace OmeLi.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "EnderecosFornecedores",
-                columns: table => new
-                {
-                    EnderecoFornecedorId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    EnderecoForn = table.Column<string>(type: "varchar(100)", nullable: false),
-                    NumeroEndereco = table.Column<string>(type: "varchar(10)", nullable: true),
-                    ComplementoEndereco = table.Column<string>(type: "varchar(20)", nullable: true),
-                    BairroEndereco = table.Column<string>(type: "varchar(40)", nullable: true),
-                    CidadeEndereco = table.Column<string>(type: "varchar(50)", nullable: true),
-                    CepEndereo = table.Column<string>(type: "varchar(13)", nullable: true),
-                    UfEndereco = table.Column<string>(type: "char(2)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_EnderecosFornecedores", x => x.EnderecoFornecedorId);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Estoques",
                 columns: table => new
                 {
@@ -53,6 +34,20 @@ namespace OmeLi.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Estoques", x => x.EstoqueId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Fornecedores",
+                columns: table => new
+                {
+                    FornecedorId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    NomeFornecedor = table.Column<string>(type: "varchar(60)", nullable: true),
+                    CnpjFornecedor = table.Column<string>(type: "char(14)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Fornecedores", x => x.FornecedorId);
                 });
 
             migrationBuilder.CreateTable(
@@ -95,23 +90,54 @@ namespace OmeLi.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Fornecedores",
+                name: "EditorasFornecedores",
                 columns: table => new
                 {
-                    FornecedorId = table.Column<int>(type: "int", nullable: false)
+                    EditoraFornecedorId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    NomeFornecedor = table.Column<string>(type: "varchar(60)", nullable: true),
-                    CnpjFornecedor = table.Column<string>(type: "char(14)", nullable: true),
-                    EnderecoFornecedorId = table.Column<int>(type: "int", nullable: false)
+                    FornecedorId = table.Column<int>(type: "int", nullable: false),
+                    EditoraId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Fornecedores", x => x.FornecedorId);
+                    table.PrimaryKey("PK_EditorasFornecedores", x => x.EditoraFornecedorId);
                     table.ForeignKey(
-                        name: "FK_Fornecedores_EnderecosFornecedores_EnderecoFornecedorId",
-                        column: x => x.EnderecoFornecedorId,
-                        principalTable: "EnderecosFornecedores",
-                        principalColumn: "EnderecoFornecedorId",
+                        name: "FK_EditorasFornecedores_Editoras_EditoraId",
+                        column: x => x.EditoraId,
+                        principalTable: "Editoras",
+                        principalColumn: "EditoraId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_EditorasFornecedores_Fornecedores_FornecedorId",
+                        column: x => x.FornecedorId,
+                        principalTable: "Fornecedores",
+                        principalColumn: "FornecedorId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "EnderecosFornecedores",
+                columns: table => new
+                {
+                    EnderecoFornecedorId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    EnderecoForn = table.Column<string>(type: "varchar(100)", nullable: false),
+                    NumeroEndereco = table.Column<string>(type: "varchar(10)", nullable: true),
+                    ComplementoEndereco = table.Column<string>(type: "varchar(20)", nullable: true),
+                    BairroEndereco = table.Column<string>(type: "varchar(40)", nullable: true),
+                    CidadeEndereco = table.Column<string>(type: "varchar(50)", nullable: true),
+                    CepEndereo = table.Column<string>(type: "varchar(13)", nullable: true),
+                    UfEndereco = table.Column<string>(type: "char(2)", nullable: true),
+                    FornecedorId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_EnderecosFornecedores", x => x.EnderecoFornecedorId);
+                    table.ForeignKey(
+                        name: "FK_EnderecosFornecedores_Fornecedores_FornecedorId",
+                        column: x => x.FornecedorId,
+                        principalTable: "Fornecedores",
+                        principalColumn: "FornecedorId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -196,32 +222,6 @@ namespace OmeLi.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "EditorasFornecedores",
-                columns: table => new
-                {
-                    EditoraFornecedorId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    FornecedorId = table.Column<int>(type: "int", nullable: false),
-                    EditoraId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_EditorasFornecedores", x => x.EditoraFornecedorId);
-                    table.ForeignKey(
-                        name: "FK_EditorasFornecedores_Editoras_EditoraId",
-                        column: x => x.EditoraId,
-                        principalTable: "Editoras",
-                        principalColumn: "EditoraId",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_EditorasFornecedores_Fornecedores_FornecedorId",
-                        column: x => x.FornecedorId,
-                        principalTable: "Fornecedores",
-                        principalColumn: "FornecedorId",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "LivrosEstoque",
                 columns: table => new
                 {
@@ -296,9 +296,9 @@ namespace OmeLi.Migrations
                 column: "FornecedorId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Fornecedores_EnderecoFornecedorId",
-                table: "Fornecedores",
-                column: "EnderecoFornecedorId",
+                name: "IX_EnderecosFornecedores_FornecedorId",
+                table: "EnderecosFornecedores",
+                column: "FornecedorId",
                 unique: true);
 
             migrationBuilder.CreateIndex(
@@ -346,6 +346,9 @@ namespace OmeLi.Migrations
                 name: "EditorasFornecedores");
 
             migrationBuilder.DropTable(
+                name: "EnderecosFornecedores");
+
+            migrationBuilder.DropTable(
                 name: "LivrosEstoque");
 
             migrationBuilder.DropTable(
@@ -365,9 +368,6 @@ namespace OmeLi.Migrations
 
             migrationBuilder.DropTable(
                 name: "Pessoas");
-
-            migrationBuilder.DropTable(
-                name: "EnderecosFornecedores");
 
             migrationBuilder.DropTable(
                 name: "Editoras");
