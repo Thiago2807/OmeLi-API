@@ -8,10 +8,10 @@ namespace OmeLi.Controllers;
 
 [ApiController]
 [Route("[Controller]")]
-public class ContatoForController : ControllerBase
+public class ContatoPessoaController : ControllerBase
 {
     private readonly BDContext _context;
-    public ContatoForController(BDContext context) { _context = context; }
+    public ContatoPessoaController(BDContext context) { _context = context; }
 
     [HttpGet("ListarTipos")]
     public async Task<ActionResult> ListarTiposTelefone()
@@ -34,14 +34,14 @@ public class ContatoForController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult> InserirContato(ContatoFornecedor contato)
+    public async Task<ActionResult> InserirContato(ContatoPessoa contato)
     {
         try
         {
             if (contato.NumeroTelefone.Length <= 7)
                 throw new Exception("Número de telefone inválido.");
 
-            await _context.ContatosFornecedores.AddAsync(contato);
+            await _context.ContatosPessoas.AddAsync(contato);
             await _context.SaveChangesAsync();
 
             return Ok("Contato cadastrado com sucesso!");
@@ -53,17 +53,18 @@ public class ContatoForController : ControllerBase
     }
 
     [HttpDelete]
-    public async Task<ActionResult> DeletarContato(int idFornecedor, int idContato)
+    public async Task<ActionResult> DeletarContato(int idPessoa, int idContato)
     {
         try
         {
-            ContatoFornecedor contato = await _context.ContatosFornecedores
-                .FirstOrDefaultAsync(co => co.FornecedorId == idFornecedor && co.ContatoFornecedorId == idContato);
+            ContatoPessoa contato = await _context.ContatosPessoas
+                .FirstOrDefaultAsync(co => co.PessoaId == idPessoa && co.ContatoPessoaId == idContato);
 
             if (contato is null)
-                return StatusCode(StatusCodes.Status404NotFound, "Não foi possível encontrar um fornecedor.");
+                return StatusCode(StatusCodes.Status404NotFound, "Não foi possível encontrar " +
+                    "uma pessoa.");
 
-            _context.ContatosFornecedores.Remove(contato);
+            _context.ContatosPessoas.Remove(contato);
             _context.SaveChangesAsync();
 
             return Ok($"Contato excluido com sucesso!");

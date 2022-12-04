@@ -3,8 +3,9 @@
     "",
     "\\OmeLi",
     "\\OmeLi\\Controllers",
-    "\\OmeLi\\Data"
+    "\\OmeLi\\Data",
+    "\\OmeLi\\Ultils"
   ],
-  "SelectedNode": "\\OmeLi\\Controllers\\StatusLController.cs",
+  "SelectedNode": "\\OmeLi\\Ultils\\Verificar.cs",
   "PreviewInSolutionExplorer": false
 }

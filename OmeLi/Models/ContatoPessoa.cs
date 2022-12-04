@@ -5,10 +5,10 @@ using System.Text.Json.Serialization;
 
 namespace OmeLi.Models;
 
-public class ContatoFornecedor
+public class ContatoPessoa
 {
     [Key]
-    public int ContatoFornecedorId { get; set; }
+    public int ContatoPessoaId { get; set; }
 
     [Required]
     [Column(TypeName = "varchar(20)")]
@@ -26,7 +26,7 @@ public class ContatoFornecedor
     public TipoTelefone TipoTelefone { get; set; }
 
     [Required]
-    public int FornecedorId { get; set; }
+    public int PessoaId { get; set; }
     [JsonIgnore]
-    public Fornecedor Fornecedor { get; set; }
+    public Pessoa Pessoa { get; set; }
 }

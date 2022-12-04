@@ -10,6 +10,7 @@ public class Pessoa
     public Pessoa()
     {
         PessoasLivros = new Collection<LivroPessoa>();
+        ContatosPessoas = new Collection<ContatoPessoa>();
     }
 
     [Key]
@@ -37,4 +38,8 @@ public class Pessoa
 
     [JsonIgnore]
     public ICollection<LivroPessoa> PessoasLivros { get; set; }
+
+    public ICollection<EnderecoPessoa> EnderecoPessoa { get; set; }
+
+    public ICollection<ContatoPessoa> ContatosPessoas { get; set; }
 }

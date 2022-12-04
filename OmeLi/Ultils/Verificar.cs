@@ -5,7 +5,7 @@ namespace OmeLi.Ultils;
 
 public class Verificar
 {
-    public bool VerificarEndereco(EnderecoFornecedor endereco)
+    public bool VerificarEndereco(EnderecoPessoa endereco)
     {
         if ((endereco.EnderecoForn.Length <= 5) || (endereco.BairroEndereco.Length <= 5) ||
                 (endereco.CidadeEndereco.Length <= 5))

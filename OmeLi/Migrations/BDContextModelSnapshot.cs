@@ -22,13 +22,13 @@ namespace OmeLi.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("OmeLi.Models.ContatoFornecedor", b =>
+            modelBuilder.Entity("OmeLi.Models.ContatoPessoa", b =>
                 {
-                    b.Property<int>("ContatoFornecedorId")
+                    b.Property<int>("ContatoPessoaId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ContatoFornecedorId"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ContatoPessoaId"), 1L, 1);
 
                     b.Property<int>("DddTelefone")
                         .HasColumnType("int");
@@ -36,23 +36,23 @@ namespace OmeLi.Migrations
                     b.Property<string>("EnderecoEmail")
                         .HasColumnType("varchar(150)");
 
-                    b.Property<int>("FornecedorId")
-                        .HasColumnType("int");
-
                     b.Property<string>("NumeroTelefone")
                         .IsRequired()
                         .HasColumnType("varchar(20)");
 
+                    b.Property<int>("PessoaId")
+                        .HasColumnType("int");
+
                     b.Property<int>("TipoTelefoneId")
                         .HasColumnType("int");
 
-                    b.HasKey("ContatoFornecedorId");
+                    b.HasKey("ContatoPessoaId");
 
-                    b.HasIndex("FornecedorId");
+                    b.HasIndex("PessoaId");
 
                     b.HasIndex("TipoTelefoneId");
 
-                    b.ToTable("ContatosFornecedores");
+                    b.ToTable("ContatosPessoas");
                 });
 
             modelBuilder.Entity("OmeLi.Models.Editora", b =>
@@ -79,36 +79,13 @@ namespace OmeLi.Migrations
                     b.ToTable("Editoras");
                 });
 
-            modelBuilder.Entity("OmeLi.Models.EditoraFornecedor", b =>
+            modelBuilder.Entity("OmeLi.Models.EnderecoPessoa", b =>
                 {
-                    b.Property<int>("EditoraFornecedorId")
+                    b.Property<int>("EnderecoPessoaId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EditoraFornecedorId"), 1L, 1);
-
-                    b.Property<int>("EditoraId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("FornecedorId")
-                        .HasColumnType("int");
-
-                    b.HasKey("EditoraFornecedorId");
-
-                    b.HasIndex("EditoraId");
-
-                    b.HasIndex("FornecedorId");
-
-                    b.ToTable("EditorasFornecedores");
-                });
-
-            modelBuilder.Entity("OmeLi.Models.EnderecoFornecedor", b =>
-                {
-                    b.Property<int>("EnderecoFornecedorId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EnderecoFornecedorId"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EnderecoPessoaId"), 1L, 1);
 
                     b.Property<string>("BairroEndereco")
                         .IsRequired()
@@ -129,23 +106,22 @@ namespace OmeLi.Migrations
                         .IsRequired()
                         .HasColumnType("varchar(100)");
 
-                    b.Property<int>("FornecedorId")
-                        .HasColumnType("int");
-
                     b.Property<string>("NumeroEndereco")
                         .IsRequired()
                         .HasColumnType("varchar(10)");
+
+                    b.Property<int>("PessoaId")
+                        .HasColumnType("int");
 
                     b.Property<string>("UfEndereco")
                         .IsRequired()
                         .HasColumnType("char(2)");
 
-                    b.HasKey("EnderecoFornecedorId");
+                    b.HasKey("EnderecoPessoaId");
 
-                    b.HasIndex("FornecedorId")
-                        .IsUnique();
+                    b.HasIndex("PessoaId");
 
-                    b.ToTable("EnderecosFornecedores");
+                    b.ToTable("EnderecosPessoas");
                 });
 
             modelBuilder.Entity("OmeLi.Models.Estoque", b =>
@@ -172,27 +148,6 @@ namespace OmeLi.Migrations
                     b.HasKey("EstoqueId");
 
                     b.ToTable("Estoques");
-                });
-
-            modelBuilder.Entity("OmeLi.Models.Fornecedor", b =>
-                {
-                    b.Property<int>("FornecedorId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("FornecedorId"), 1L, 1);
-
-                    b.Property<string>("CnpjFornecedor")
-                        .IsRequired()
-                        .HasColumnType("char(14)");
-
-                    b.Property<string>("NomeFornecedor")
-                        .IsRequired()
-                        .HasColumnType("varchar(60)");
-
-                    b.HasKey("FornecedorId");
-
-                    b.ToTable("Fornecedores");
                 });
 
             modelBuilder.Entity("OmeLi.Models.Livro", b =>
@@ -366,6 +321,23 @@ namespace OmeLi.Migrations
                     b.HasKey("TipoPessoaId");
 
                     b.ToTable("TiposPessoas");
+
+                    b.HasData(
+                        new
+                        {
+                            TipoPessoaId = 1,
+                            DescTipoPessoa = "Default"
+                        },
+                        new
+                        {
+                            TipoPessoaId = 2,
+                            DescTipoPessoa = "Author"
+                        },
+                        new
+                        {
+                            TipoPessoaId = 3,
+                            DescTipoPessoa = "Cliente"
+                        });
                 });
 
             modelBuilder.Entity("OmeLi.Models.TipoTelefone", b =>
@@ -407,11 +379,11 @@ namespace OmeLi.Migrations
                         });
                 });
 
-            modelBuilder.Entity("OmeLi.Models.ContatoFornecedor", b =>
+            modelBuilder.Entity("OmeLi.Models.ContatoPessoa", b =>
                 {
-                    b.HasOne("OmeLi.Models.Fornecedor", "Fornecedor")
-                        .WithMany("ContatosFornecedor")
-                        .HasForeignKey("FornecedorId")
+                    b.HasOne("OmeLi.Models.Pessoa", "Pessoa")
+                        .WithMany("ContatosPessoas")
+                        .HasForeignKey("PessoaId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -421,39 +393,20 @@ namespace OmeLi.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Fornecedor");
+                    b.Navigation("Pessoa");
 
                     b.Navigation("TipoTelefone");
                 });
 
-            modelBuilder.Entity("OmeLi.Models.EditoraFornecedor", b =>
+            modelBuilder.Entity("OmeLi.Models.EnderecoPessoa", b =>
                 {
-                    b.HasOne("OmeLi.Models.Editora", "Editora")
-                        .WithMany("Editoras")
-                        .HasForeignKey("EditoraId")
+                    b.HasOne("OmeLi.Models.Pessoa", "Pessoa")
+                        .WithMany("EnderecoPessoa")
+                        .HasForeignKey("PessoaId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("OmeLi.Models.Fornecedor", "Fornecedor")
-                        .WithMany("Fornecedores")
-                        .HasForeignKey("FornecedorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Editora");
-
-                    b.Navigation("Fornecedor");
-                });
-
-            modelBuilder.Entity("OmeLi.Models.EnderecoFornecedor", b =>
-                {
-                    b.HasOne("OmeLi.Models.Fornecedor", "Fornecedor")
-                        .WithOne("EnderecoFornecedor")
-                        .HasForeignKey("OmeLi.Models.EnderecoFornecedor", "FornecedorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Fornecedor");
+                    b.Navigation("Pessoa");
                 });
 
             modelBuilder.Entity("OmeLi.Models.Livro", b =>
@@ -526,23 +479,12 @@ namespace OmeLi.Migrations
 
             modelBuilder.Entity("OmeLi.Models.Editora", b =>
                 {
-                    b.Navigation("Editoras");
-
                     b.Navigation("Livros");
                 });
 
             modelBuilder.Entity("OmeLi.Models.Estoque", b =>
                 {
                     b.Navigation("EstoqueLivros");
-                });
-
-            modelBuilder.Entity("OmeLi.Models.Fornecedor", b =>
-                {
-                    b.Navigation("ContatosFornecedor");
-
-                    b.Navigation("EnderecoFornecedor");
-
-                    b.Navigation("Fornecedores");
                 });
 
             modelBuilder.Entity("OmeLi.Models.Livro", b =>
@@ -554,6 +496,10 @@ namespace OmeLi.Migrations
 
             modelBuilder.Entity("OmeLi.Models.Pessoa", b =>
                 {
+                    b.Navigation("ContatosPessoas");
+
+                    b.Navigation("EnderecoPessoa");
+
                     b.Navigation("PessoasLivros");
                 });
 

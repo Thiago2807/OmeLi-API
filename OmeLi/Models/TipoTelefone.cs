@@ -8,7 +8,7 @@ public class TipoTelefone
 {
     public TipoTelefone()
     {
-        ContatosFornecedores = new Collection<ContatoFornecedor>();
+        ContatosFornecedores = new Collection<ContatoPessoa>();
     }
 
     [Key]
@@ -18,5 +18,5 @@ public class TipoTelefone
     public string DescTipoTelefone { get; set; }
 
     [JsonIgnore]
-    public ICollection<ContatoFornecedor> ContatosFornecedores { get; set; }
+    public ICollection<ContatoPessoa> ContatosFornecedores { get; set; }
 }

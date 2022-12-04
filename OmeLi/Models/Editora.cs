@@ -10,7 +10,6 @@ public class Editora
 {
     public Editora()
     {
-        Editoras = new Collection<EditoraFornecedor>();
         Livros = new Collection<Livro>();
     }
 
@@ -28,8 +27,6 @@ public class Editora
     [Column(TypeName = "char(14)")]
     public string CnpjEditora { get; set; }
 
-    [JsonIgnore]
-    public ICollection<EditoraFornecedor> Editoras { get; set; }
-    [JsonIgnore]
+    [Required]
     public ICollection<Livro> Livros { get; set; }
 }
