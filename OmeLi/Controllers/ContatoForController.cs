@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using OmeLi.Data;
 using OmeLi.Models;
@@ -17,7 +18,9 @@ public class ContatoForController : ControllerBase
     {   
         try
         {
-            List<TipoTelefone> tipos = _context.TiposTelefones.ToList();
+            List<TipoTelefone> tipos = _context.TiposTelefones
+                .Include(con => con.ContatosFornecedores)
+                .ToList();
 
             if (tipos.Count() < 1)
                 return NotFound("Não foi possível listar os tipos de telefone.");
@@ -30,5 +33,20 @@ public class ContatoForController : ControllerBase
         }
     }
 
+    [HttpPost]
+    public async Task<ActionResult> InserirContato(ContatoFornecedor contato)
+    {
+        try
+        {
+            await _context.ContatosFornecedores.AddAsync(contato);
+            await _context.SaveChangesAsync();
+
+            return Ok("Contato cadastrado com sucesso!");
+        }
+        catch(Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
 
 }

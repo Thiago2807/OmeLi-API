@@ -20,8 +20,8 @@ public class EnderecoController : ControllerBase
     {
         try
         {
-            Fornecedor endereco = await _context.Fornecedores
-                .Include(endereco => endereco.EnderecoFornecedor)
+            EnderecoFornecedor endereco = await _context.EnderecosFornecedores
+                .Include(fo => fo.Fornecedor)
                 .FirstOrDefaultAsync(endFor => endFor.FornecedorId == id);
 
             if (endereco is null)
@@ -36,11 +36,10 @@ public class EnderecoController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult> InserirEnderecoFornecedor(EnderecoFornecedor endereco)
+    public async Task<ActionResult> InserirEnderecoFornecedor(EnderecoFornecedor endereco, int id)
     {
         try
         {
-
             if (!ver.VerificarEndereco(endereco))
                 throw new Exception("Endereço inválido.");
 
@@ -55,7 +54,7 @@ public class EnderecoController : ControllerBase
         }
     }
 
-    [HttpPut]
+    /*[HttpPut]
     public async Task<ActionResult> AlterarEnderecoFornecedor(int id, EnderecoFornecedor endereco)
     {
         try
@@ -82,5 +81,5 @@ public class EnderecoController : ControllerBase
         {
             return BadRequest(ex.Message);
         }
-    }
+    }*/
 }

@@ -9,7 +9,7 @@ public class Fornecedor
     public Fornecedor()
     {
         Fornecedores = new Collection<EditoraFornecedor>();
-        ContatoFornecedor = new Collection<ContatoFornecedor>();
+        ContatosFornecedor = new Collection<ContatoFornecedor>();
     }
 
     [Key]
@@ -21,9 +21,9 @@ public class Fornecedor
     [Column(TypeName = "char(14)")]
     public string? CnpjFornecedor { get; set; }
 
-    public ICollection<ContatoFornecedor> ContatoFornecedor { get; set; }
+    public ICollection<ContatoFornecedor> ContatosFornecedor { get; set; }
 
-    public EnderecoFornecedor? EnderecoFornecedor { get; set; }
+    public EnderecoFornecedor EnderecoFornecedor { get; set; }
 
-    public ICollection<EditoraFornecedor>? Fornecedores { get; set; }
+    public ICollection<EditoraFornecedor> Fornecedores { get; set; }
 }

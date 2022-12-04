@@ -32,5 +32,5 @@ public class EnderecoFornecedor
 
     //Criando o relacionamento de um para um
     public int FornecedorId { get; set; }
-    public Fornecedor? Fornecedor { get; set; }
+    public Fornecedor Fornecedor { get; set; }
 }
