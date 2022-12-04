@@ -13,12 +13,12 @@ public class FornecedorController : ControllerBase
     private readonly BDContext _context;
     public FornecedorController(BDContext context) { _context = context; }
 
-    [HttpGet]
+    [HttpGet("ListarFor")]
     public async Task<ActionResult> ListarFornecedores()
     {
         try
         {
-            List<Fornecedor> fornecedores = await _context.Fornecedores
+            ICollection<Fornecedor> fornecedores = await _context.Fornecedores
                                                     .AsNoTracking()
                                                     .Take(10)
                                                     .ToListAsync();
@@ -29,6 +29,27 @@ public class FornecedorController : ControllerBase
             return Ok(fornecedores);
         }
         catch(Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
+    [HttpGet("ListarContatoFor/{id:int}")]
+    public async Task<ActionResult> ConsultarContatoFornecedor(int id)
+    {
+        try
+        {
+                Fornecedor contatoFor = await _context.Fornecedores
+                    .Include(p => p.ContatosFornecedor)
+                    .AsNoTracking()
+                    .FirstOrDefaultAsync(fo => fo.FornecedorId == id);
+
+            if (contatoFor is null)
+                return NotFound("Fornecedor não cadastrado.");
+
+            return Ok(contatoFor);
+        }
+        catch (Exception ex)
         {
             return BadRequest(ex.Message);
         }

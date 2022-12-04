@@ -38,6 +38,5 @@ public class EnderecoFornecedor
 
     [Required]
     public int FornecedorId { get; set; }
-    [JsonIgnore]
     public Fornecedor Fornecedor { get; set; }
 }

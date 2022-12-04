@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace OmeLi.Models;
 
@@ -16,5 +17,6 @@ public class TipoTelefone
     [Required]
     public string DescTipoTelefone { get; set; }
 
+    [JsonIgnore]
     public ICollection<ContatoFornecedor> ContatosFornecedores { get; set; }
 }

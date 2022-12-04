@@ -37,7 +37,7 @@ public class EnderecoController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult> InserirEnderecoFornecedor(EnderecoFornecedor endereco, int id)
+    public async Task<ActionResult> InserirEnderecoFornecedor(EnderecoFornecedor endereco)
     {
         try
         {

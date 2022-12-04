@@ -13,15 +13,13 @@ public class ContatoForController : ControllerBase
     private readonly BDContext _context;
     public ContatoForController(BDContext context) { _context = context; }
 
-    [HttpGet]
+    [HttpGet("ListarTipos")]
     public async Task<ActionResult> ListarTiposTelefone()
     {   
         try
         {
             List<TipoTelefone> tipos = _context.TiposTelefones
-                .Include(con => con.ContatosFornecedores)
                 .AsNoTracking()
-                .Take(25)
                 .ToList();
 
             if (tipos.Count() < 1)
@@ -40,6 +38,9 @@ public class ContatoForController : ControllerBase
     {
         try
         {
+            if (contato.NumeroTelefone.Length <= 7)
+                throw new Exception("Número de telefone inválido.");
+
             await _context.ContatosFornecedores.AddAsync(contato);
             await _context.SaveChangesAsync();
 

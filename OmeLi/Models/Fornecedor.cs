@@ -24,7 +24,6 @@ public class Fornecedor
     [Column(TypeName = "char(14)")]
     public string CnpjFornecedor { get; set; }
 
-    [JsonIgnore]
     public ICollection<ContatoFornecedor> ContatosFornecedor { get; set; }
 
     [JsonIgnore]
