@@ -20,6 +20,8 @@ public class ContatoForController : ControllerBase
         {
             List<TipoTelefone> tipos = _context.TiposTelefones
                 .Include(con => con.ContatosFornecedores)
+                .AsNoTracking()
+                .Take(25)
                 .ToList();
 
             if (tipos.Count() < 1)

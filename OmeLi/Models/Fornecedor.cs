@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Collections.ObjectModel;
+using System.Text.Json.Serialization;
 
 namespace OmeLi.Models;
 
@@ -21,9 +22,12 @@ public class Fornecedor
     [Column(TypeName = "char(14)")]
     public string? CnpjFornecedor { get; set; }
 
+    [JsonIgnore]
     public ICollection<ContatoFornecedor> ContatosFornecedor { get; set; }
 
+    [JsonIgnore]
     public EnderecoFornecedor EnderecoFornecedor { get; set; }
 
+    [JsonIgnore]
     public ICollection<EditoraFornecedor> Fornecedores { get; set; }
 }

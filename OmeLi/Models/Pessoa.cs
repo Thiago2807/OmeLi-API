@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace OmeLi.Models;
 
@@ -26,7 +27,9 @@ public class Pessoa
     public DateTime DtNascimento { get; set; }
 
     public int TipoPessoaId { get; set; }
+    [JsonIgnore]
     public TipoPessoa? TipoPessoa { get; set; }
 
+    [JsonIgnore]
     public ICollection<LivroPessoa>? PessoasLivros { get; set; }
 }

@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace OmeLi.Models;
 
@@ -32,5 +33,6 @@ public class EnderecoFornecedor
 
     //Criando o relacionamento de um para um
     public int FornecedorId { get; set; }
+    [JsonIgnore]
     public Fornecedor Fornecedor { get; set; }
 }

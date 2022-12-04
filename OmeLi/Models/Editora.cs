@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace OmeLi.Models;
 
@@ -25,6 +26,8 @@ public class Editora
     [Column(TypeName = "char(14)")]
     public string? CnpjEditora { get; set; }
 
+    [JsonIgnore]
     public ICollection<EditoraFornecedor>? Editoras { get; set; }
+    [JsonIgnore]
     public ICollection<Livro>? Livros { get; set; }
 }
