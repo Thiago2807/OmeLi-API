@@ -20,4 +20,21 @@ public class BDContext : DbContext
     public DbSet<Livro>? Livros { get; set; }
     public DbSet<Estoque>? Estoques { get; set; }
     public DbSet<Editora>? Editoras { get; set; }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<StatusLivro>().HasData(
+            new StatusLivro { StatusLivroId = 1, DescStatusLivroId = "Default" },
+            new StatusLivro { StatusLivroId = 2, DescStatusLivroId = "Ativo" },
+            new StatusLivro { StatusLivroId = 3, DescStatusLivroId = "Desativado" },
+            new StatusLivro { StatusLivroId = 4, DescStatusLivroId = "Emprestado" }
+        );
+
+        modelBuilder.Entity<TipoTelefone>().HasData(
+            new TipoTelefone { TipoTelefoneId = 1, DescTipoTelefone = "Celular" },
+            new TipoTelefone { TipoTelefoneId = 2, DescTipoTelefone = "Residencial" },
+            new TipoTelefone { TipoTelefoneId = 3, DescTipoTelefone = "Comercial" },
+            new TipoTelefone { TipoTelefoneId = 4, DescTipoTelefone = "Recado" }
+        );
+    }
 }
