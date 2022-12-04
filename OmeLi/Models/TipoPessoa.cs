@@ -14,8 +14,9 @@ public class TipoPessoa
     [Key]
     public int TipoPessoaId { get; set; }
 
+    [Required]
     [Column(TypeName = "varchar(15)")]
-    public string? DescTipoPessoa { get; set; }
+    public string DescTipoPessoa { get; set; }
 
-    public ICollection<Pessoa>? Pessoas { get; set; }
+    public ICollection<Pessoa> Pessoas { get; set; }
 }

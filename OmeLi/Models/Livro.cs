@@ -18,19 +18,21 @@ public class Livro
 
     [Required]
     [Column(TypeName = "varchar(60)")]
-    public string? NomeLivro { get; set; }
+    public string NomeLivro { get; set; }
 
     [Required]
     [MaxLength(350)]
-    public string? DescLivro { get; set; }
+    public string DescLivro { get; set; }
 
+    [Required]
     public int StatusLivroId { get; set; }
     [JsonIgnore]
-    public StatusLivro? StatusLivro { get; set; }
+    public StatusLivro StatusLivro { get; set; }
 
+    [Required]
     public int EditoraId { get; set; }
     [JsonIgnore]
-    public Editora? Editora { get; set; }
+    public Editora Editora { get; set; }
 
     [JsonIgnore]
     public ICollection<LivroEstoque>? LivrosEstoque { get; set; }

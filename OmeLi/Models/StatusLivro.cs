@@ -14,8 +14,9 @@ public class StatusLivro
     [Key]
     public int StatusLivroId { get; set; }
 
+    [Required]
     [Column(TypeName = "varchar(15)")]
-    public string? DescStatusLivroId { get; set; }
+    public string DescStatusLivroId { get; set; }
 
-    public ICollection<Livro>? Livros { get; set; }
+    public ICollection<Livro> Livros { get; set; }
 }

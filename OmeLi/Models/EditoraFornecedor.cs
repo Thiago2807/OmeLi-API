@@ -8,11 +8,13 @@ public class EditoraFornecedor
     [Key]
     public int EditoraFornecedorId { get; set; }
 
+    [Required]
     public int FornecedorId { get; set; }
     [JsonIgnore]
-    public Fornecedor? Fornecedor { get; set; }
+    public Fornecedor Fornecedor { get; set; }
 
+    [Required]
     public int EditoraId { get; set; }
     [JsonIgnore]
-    public Editora? Editora { get; set; }
+    public Editora Editora { get; set; }
 }

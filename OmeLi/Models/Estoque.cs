@@ -15,15 +15,18 @@ public class Estoque
     [Key]
     public int EstoqueId { get; set; }
 
-    [Column]
+    [Required]
     public int QtdLivroEstoque { get; set; }
 
+    [Required]
+    [Column(TypeName = "varchar(60)")]
     public string NomeEstoque { get; set; }
 
+    [Column(TypeName = "varchar(150)")]
     public string DescEstoque { get; set; }
 
     public int QtdLimiteEstoque { get; set; }
 
     [JsonIgnore]
-    public ICollection<LivroEstoque>? EstoqueLivros { get; set; }
+    public ICollection<LivroEstoque> EstoqueLivros { get; set; }
 }

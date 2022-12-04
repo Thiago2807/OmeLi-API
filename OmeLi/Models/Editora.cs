@@ -17,17 +17,19 @@ public class Editora
     [Key]
     public int EditoraId { get; set; }
 
+    [Required]
     [Column(TypeName = "varchar(60)")]
-    public string? NomeEditora { get; set; }
+    public string NomeEditora { get; set; }
 
     [Column(TypeName = "varchar(150)")]
-    public string? DescEditora { get; set; }
+    public string DescEditora { get; set; }
 
+    [Required]
     [Column(TypeName = "char(14)")]
-    public string? CnpjEditora { get; set; }
+    public string CnpjEditora { get; set; }
 
     [JsonIgnore]
-    public ICollection<EditoraFornecedor>? Editoras { get; set; }
+    public ICollection<EditoraFornecedor> Editoras { get; set; }
     [JsonIgnore]
-    public ICollection<Livro>? Livros { get; set; }
+    public ICollection<Livro> Livros { get; set; }
 }

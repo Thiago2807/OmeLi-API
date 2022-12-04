@@ -8,14 +8,17 @@ public class LivroEstoque
     [Key]
     public int LivroEstoqueId { get; set; }
 
-    public float QtdLivro { get; set; }
-    public float QtdLimiteLivro { get; set; }
+    [Required]
+    public int QtdLivro { get; set; }
+    public int QtdLimiteLivro { get; set; }
 
+    [Required]
     public int LivroId { get; set; }
     [JsonIgnore]
-    public Livro? Livro { get; set; }
+    public Livro Livro { get; set; }
 
+    [Required]
     public int EstoqueId { get; set; }
     [JsonIgnore]
-    public Estoque? Estoque { get; set; }
+    public Estoque Estoque { get; set; }
 }

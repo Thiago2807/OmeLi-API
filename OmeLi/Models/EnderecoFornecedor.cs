@@ -11,27 +11,32 @@ public class EnderecoFornecedor
 
     [Required]
     [Column(TypeName = "varchar(100)")]
-    public string? EnderecoForn { get; set; }
+    public string EnderecoForn { get; set; }
 
+    [Required]
     [Column(TypeName = "varchar(10)")]
-    public string? NumeroEndereco { get; set; }
+    public string NumeroEndereco { get; set; }
 
     [Column(TypeName = "varchar(20)")]
-    public string? ComplementoEndereco { get; set; }
+    public string ComplementoEndereco { get; set; }
 
+    [Required]
     [Column(TypeName = "varchar(40)")]
-    public string? BairroEndereco { get; set; }
+    public string BairroEndereco { get; set; }
 
+    [Required]
     [Column(TypeName = "varchar(50)")]
-    public string? CidadeEndereco { get; set; }
+    public string CidadeEndereco { get; set; }
 
+    [Required]
     [Column(TypeName = "varchar(13)")]
-    public string? CepEndereo { get; set; }
+    public string CepEndereo { get; set; }
 
+    [Required]
     [Column(TypeName = "char(2)")]
-    public string? UfEndereco { get; set; }
+    public string UfEndereco { get; set; }
 
-    //Criando o relacionamento de um para um
+    [Required]
     public int FornecedorId { get; set; }
     [JsonIgnore]
     public Fornecedor Fornecedor { get; set; }

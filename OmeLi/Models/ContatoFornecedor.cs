@@ -12,19 +12,21 @@ public class ContatoFornecedor
 
     [Required]
     [Column(TypeName = "varchar(20)")]
-    public string? NumeroTelefone { get; set; }
+    public string NumeroTelefone { get; set; }
 
     [Column(TypeName = "varchar(150)")]
-    public string? EnderecoEmail { get; set; }
+    public string EnderecoEmail { get; set; }
 
     [Required]
     public int DddTelefone { get; set; }
 
+    [Required]
     public int TipoTelefoneId { get; set; }
     [JsonIgnore]
-    public TipoTelefone? TipoTelefone { get; set; }
+    public TipoTelefone TipoTelefone { get; set; }
 
+    [Required]
     public int FornecedorId { get; set; }
     [JsonIgnore]
-    public Fornecedor? Fornecedor { get; set; }
+    public Fornecedor Fornecedor { get; set; }
 }

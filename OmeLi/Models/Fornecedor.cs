@@ -16,11 +16,13 @@ public class Fornecedor
     [Key]
     public int FornecedorId { get; set; }
 
+    [Required]
     [Column(TypeName = "varchar(60)")]
-    public string? NomeFornecedor { get; set; }
+    public string NomeFornecedor { get; set; }
 
+    [Required]
     [Column(TypeName = "char(14)")]
-    public string? CnpjFornecedor { get; set; }
+    public string CnpjFornecedor { get; set; }
 
     [JsonIgnore]
     public ICollection<ContatoFornecedor> ContatosFornecedor { get; set; }

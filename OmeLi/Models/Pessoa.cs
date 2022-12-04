@@ -15,21 +15,26 @@ public class Pessoa
     [Key]
     public int PessoaId { get; set; }
 
+    [Required]
     [Column(TypeName = "varchar(60)")]
-    public string? NomePessoa { get; set; }
+    public string NomePessoa { get; set; }
 
+    [Required]
     [Column(TypeName = "varchar(60)")]
-    public string? SobrenomePessoa { get; set; }
+    public string SobrenomePessoa { get; set; }
 
+    [Required]
     [Column(TypeName = "char(11)")]
-    public string? CpfPessoa { get; set; }
+    public string CpfPessoa { get; set; }
 
+    [Required]
     public DateTime DtNascimento { get; set; }
 
+    [Required]
     public int TipoPessoaId { get; set; }
     [JsonIgnore]
-    public TipoPessoa? TipoPessoa { get; set; }
+    public TipoPessoa TipoPessoa { get; set; }
 
     [JsonIgnore]
-    public ICollection<LivroPessoa>? PessoasLivros { get; set; }
+    public ICollection<LivroPessoa> PessoasLivros { get; set; }
 }

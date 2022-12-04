@@ -1,18 +1,21 @@
-﻿using System.Text.Json.Serialization;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace OmeLi.Models;
 
 public class LivroPessoa
 {
-
+    [Key]
     public int LivroPessoaId { get; set; }
 
+    [Required]
     public int LivroId { get; set; }
     [JsonIgnore]
-    public Livro? Livro { get; set; }
+    public Livro Livro { get; set; }
 
+    [Required]
     public int PessoaId { get; set; }
     [JsonIgnore]
-    public Pessoa? Pessoa { get; set; }
+    public Pessoa Pessoa { get; set; }
 
 }
