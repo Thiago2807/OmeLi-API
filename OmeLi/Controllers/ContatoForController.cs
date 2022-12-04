@@ -52,4 +52,25 @@ public class ContatoForController : ControllerBase
         }
     }
 
+    [HttpDelete]
+    public async Task<ActionResult> DeletarContato(int idFornecedor, int idContato)
+    {
+        try
+        {
+            ContatoFornecedor contato = await _context.ContatosFornecedores
+                .FirstOrDefaultAsync(co => co.FornecedorId == idFornecedor && co.ContatoFornecedorId == idContato);
+
+            if (contato is null)
+                return StatusCode(StatusCodes.Status404NotFound, "Não foi possível encontrar um fornecedor.");
+
+            _context.ContatosFornecedores.Remove(contato);
+            _context.SaveChangesAsync();
+
+            return Ok($"Contato excluido com sucesso!");
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
 }
