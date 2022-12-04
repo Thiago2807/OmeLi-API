@@ -22,6 +22,7 @@ public class EnderecoController : ControllerBase
         {
             EnderecoFornecedor endereco = await _context.EnderecosFornecedores
                 .Include(fo => fo.Fornecedor)
+                .AsNoTracking()
                 .FirstOrDefaultAsync(endFor => endFor.FornecedorId == id);
 
             if (endereco is null)

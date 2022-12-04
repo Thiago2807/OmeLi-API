@@ -18,7 +18,10 @@ public class FornecedorController : ControllerBase
     {
         try
         {
-            List<Fornecedor> fornecedores = await _context.Fornecedores.ToListAsync();
+            List<Fornecedor> fornecedores = await _context.Fornecedores
+                                                    .AsNoTracking()
+                                                    .Take(10)
+                                                    .ToListAsync();
 
             if (fornecedores is null)
                 throw new Exception("Não existe nenhum fornecedor cadastrado.");

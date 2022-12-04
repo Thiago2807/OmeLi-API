@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using OmeLi.Data;
 using OmeLi.Models;
 
@@ -21,7 +22,9 @@ public class StatusLController : ControllerBase
     {
         try
         {
-            var lista = _context.StatusLivros.ToList();
+            var lista = _context.StatusLivros
+                .AsNoTracking()
+                .ToList();
 
             return Ok(lista);
         }
