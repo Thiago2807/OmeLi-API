@@ -25,7 +25,7 @@ public class PessoasController : ControllerBase
                                                     .ToListAsync();
 
             if (pessoa is null)
-                throw new Exception("Não existe nenhuma pessoa cadastrado.");
+                return NotFound("No momento não existe nenhuma pessoa cadastrada.");
 
             return Ok(pessoa);
         }
@@ -45,8 +45,11 @@ public class PessoasController : ControllerBase
                     .AsNoTracking()
                     .FirstOrDefaultAsync(pe => pe.PessoaId == id);
 
+            string mensagemErro 
+                = string.Format($"Não foi possível encontrar uma pessoa com o id {id} informado.");
+
             if (contatoPes is null)
-                return NotFound("Pessoa não cadastrada.");
+                return NotFound(mensagemErro);
 
             return Ok(contatoPes);
         }
@@ -66,8 +69,11 @@ public class PessoasController : ControllerBase
                 .AsNoTracking()
                 .FirstOrDefaultAsync(endFor => endFor.PessoaId == id);
 
+            string mensagemErro
+                = string.Format($"Não foi possível encontrar uma pessoa com o id {id} informado.");
+
             if (endereco is null)
-                return NotFound("Não foi possível encontrar uma pessoa.");
+                return NotFound(mensagemErro);
 
             return Ok(endereco);
         }
@@ -90,6 +96,7 @@ public class PessoasController : ControllerBase
 
             if (!ver.VerificarPriDigito(pessoa.CpfPessoa.ToCharArray()))
                 throw new Exception("Cpf da pessoa inválido.");
+
             if (!ver.VerificarSegDigito(pessoa.CpfPessoa.ToCharArray()))
                 throw new Exception("Cpf da pessoa inválido.");
 
@@ -114,14 +121,17 @@ public class PessoasController : ControllerBase
                 .Include(con => con.ContatosPessoas)
                 .FirstOrDefaultAsync(fo => fo.PessoaId == id);
 
+            string mensagemErro
+                = string.Format($"Não foi possível encontrar uma pessoa com o id {id} informado.");
+
             if (pessoa is null)
-                throw new Exception("Não foi possível encontrar uma pessoa.");
+                return NotFound(mensagemErro);
 
             _context.Pessoas.Remove(pessoa);
             await _context.SaveChangesAsync();
 
-            string mensagemConclusao = string.Format($"Pessoa '{pessoa.NomePessoa}'" +
-                $" excluido com sucesso!");
+            string mensagemConclusao = string.Format($"'{pessoa.NomePessoa} {pessoa.SobrenomePessoa}'" +
+                $" excluida com sucesso!");
 
             return Ok(mensagemConclusao);
         }

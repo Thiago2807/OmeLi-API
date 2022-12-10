@@ -23,7 +23,7 @@ public class ContatoPessoaController : ControllerBase
                 .ToList();
 
             if (tipos.Count() < 1)
-                return NotFound("Não foi possível listar os tipos de telefone.");
+                return NotFound("Não foi possível encontrar um tipo de telefone.");
 
             return Ok(tipos);
         }
@@ -38,6 +38,11 @@ public class ContatoPessoaController : ControllerBase
     {
         try
         {
+            //Metodo para verificar o Email
+
+            if (contato.PessoaId <= 0)
+                return NotFound($"Não foi possível encontrar uma pessoa com o id '{contato.PessoaId}'.");
+
             if (contato.NumeroTelefone.Length <= 7)
                 throw new Exception("Número de telefone inválido.");
 
@@ -60,12 +65,14 @@ public class ContatoPessoaController : ControllerBase
             ContatoPessoa contato = await _context.ContatosPessoas
                 .FirstOrDefaultAsync(co => co.PessoaId == idPessoa && co.ContatoPessoaId == idContato);
 
+            Pessoa pessoa = await _context.Pessoas.FirstOrDefaultAsync(pe => pe.PessoaId == idPessoa);
+
             if (contato is null)
-                return StatusCode(StatusCodes.Status404NotFound, "Não foi possível encontrar " +
-                    "uma pessoa.");
+                return NotFound($"Não foi possível apagar o contato do(a) '{pessoa.NomePessoa} " +
+                    $"{pessoa.SobrenomePessoa}'");
 
             _context.ContatosPessoas.Remove(contato);
-            _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
 
             return Ok($"Contato excluido com sucesso!");
         }

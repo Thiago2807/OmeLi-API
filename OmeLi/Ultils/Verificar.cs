@@ -20,6 +20,7 @@ public class Verificar
         return true;
     }
 
+    //Inicio verificação cpf
     public bool VerificarPriDigito(char[] cpf)
     {
         var tools = new CalVerificador();
@@ -68,4 +69,6 @@ public class Verificar
             return (resulId);
 
     }
+    //Fim verificação cpf
+
 }

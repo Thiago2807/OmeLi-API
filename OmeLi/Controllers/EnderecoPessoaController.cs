@@ -23,6 +23,9 @@ public class EnderecoPessoaController : ControllerBase
             if (!ver.VerificarEndereco(endereco))
                 throw new Exception("Endereço inválido.");
 
+            if (endereco.PessoaId <= 0)
+                return NotFound($"Não foi possível encontrar uma pessoa com o id '{endereco.PessoaId}'.");
+
             await _context.EnderecosPessoas.AddAsync(endereco);
             await _context.SaveChangesAsync();
 
@@ -43,7 +46,7 @@ public class EnderecoPessoaController : ControllerBase
                 .FirstOrDefaultAsync(idFor => idFor.PessoaId == id);
 
             if (pessoa is null)
-                throw new Exception("Fornecedor não encontrado.");
+                return NotFound("Não foi possivel encontrar uma pessoa com esse id.");
 
             if (!ver.VerificarEndereco(endereco))
                 throw new Exception("Endereço inválido.");

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "nI5jJ7C5u8gPBS0TXj3yowQTkFMNoMTpL4GW2UTCWOeUs3UxaT28ASLEoQDA8lrVrq3MbAX5QKwzJ7+NwVU7HQ==",
+  "dgSpecHash": "3fWvKJ0CU5Uu7khM1HRTBGRD7ICbARC80vWTvEqCQJH/ZLurc2OVFrnCqWU5f+Uq+Rl7FkKcVojiZePisGCrtw==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Thiago da S. Roque\\Desktop\\Projeto ApiLivro\\ApiLivro\\OmeLi\\OmeLi\\OmeLi.csproj",
+  "projectFilePath": "C:\\Users\\Thiago da S. Roque\\Desktop\\Projetos\\Projeto ApiLivro\\ApiLivro\\OmeLi\\OmeLi\\OmeLi.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Thiago da S. Roque\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\Thiago da S. Roque\\.nuget\\packages\\microsoft.csharp\\4.5.0\\microsoft.csharp.4.5.0.nupkg.sha512",
