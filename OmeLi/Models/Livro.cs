@@ -26,17 +26,15 @@ public class Livro
 
     [Required]
     public int StatusLivroId { get; set; }
-    [JsonIgnore]
     public StatusLivro StatusLivro { get; set; }
 
     [Required]
     public int EditoraId { get; set; }
-    [JsonIgnore]
     public Editora Editora { get; set; }
 
     [JsonIgnore]
-    public ICollection<LivroEstoque>? LivrosEstoque { get; set; }
+    public ICollection<LivroEstoque> LivrosEstoque { get; set; }
 
     [JsonIgnore]
-    public ICollection<LivroPessoa>? LivrosPessoas { get; set; }
+    public ICollection<LivroPessoa> LivrosPessoas { get; set; }
 }

@@ -10,7 +10,10 @@ namespace OmeLi.Controllers;
 public class LivroController : ControllerBase
 {
     private readonly BDContext _context;
-    public LivroController  (BDContext context) { context = _context; }
+    public LivroController  (BDContext context) 
+    { 
+        _context = context; 
+    }
 
     public async Task<ActionResult> ListarLivros()
     {
