@@ -14,7 +14,6 @@ public class BDContext : DbContext
     public DbSet<StatusLivro> StatusLivros { get; set; }
     public DbSet<Pessoa> Pessoas { get; set; }
     public DbSet<LivroPessoa> LivrosPessoas { get; set; }
-    public DbSet<LivroEstoque> LivrosEstoque { get; set; }
     public DbSet<Livro> Livros { get; set; }
     public DbSet<Estoque> Estoques { get; set; }
     public DbSet<Editora> Editoras { get; set; }
@@ -39,6 +38,11 @@ public class BDContext : DbContext
             new TipoPessoa { TipoPessoaId = 1, DescTipoPessoa = "Default"},
             new TipoPessoa { TipoPessoaId = 2, DescTipoPessoa = "Author" },
             new TipoPessoa { TipoPessoaId = 3, DescTipoPessoa = "Cliente" }
+        );
+
+        modelBuilder.Entity<Estoque>().HasData(
+            new Estoque { EstoqueId = 1, DescEstoque = "Estoque de livros padrão",
+                NomeEstoque = "Estoque de livros", QtdLimiteEstoque = 0, QtdLivroEstoque = 0}    
         );
     }
 }

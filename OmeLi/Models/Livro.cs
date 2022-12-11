@@ -9,7 +9,6 @@ public class Livro
 {
     public Livro()
     {
-        LivrosEstoque = new Collection<LivroEstoque>();
         LivrosPessoas = new Collection<LivroPessoa>();
     }
 
@@ -32,9 +31,15 @@ public class Livro
     public int EditoraId { get; set; }
     public Editora Editora { get; set; }
 
-    [JsonIgnore]
-    public ICollection<LivroEstoque> LivrosEstoque { get; set; }
+    public int QtdeLivro { get; set; }
+
+    public int QtdeLimiteLivro { get; set; }
 
     [JsonIgnore]
     public ICollection<LivroPessoa> LivrosPessoas { get; set; }
+
+    [Required]
+    public int EstoqueId { get; set; }
+    [JsonIgnore]
+    public Estoque Estoque { get; set; }
 }

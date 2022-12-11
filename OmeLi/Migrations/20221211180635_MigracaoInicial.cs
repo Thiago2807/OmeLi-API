@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace OmeLi.Migrations
 {
-    public partial class MicracaoInicial : Migration
+    public partial class MigracaoInicial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -88,7 +88,10 @@ namespace OmeLi.Migrations
                     NomeLivro = table.Column<string>(type: "varchar(60)", nullable: false),
                     DescLivro = table.Column<string>(type: "nvarchar(350)", maxLength: 350, nullable: false),
                     StatusLivroId = table.Column<int>(type: "int", nullable: false),
-                    EditoraId = table.Column<int>(type: "int", nullable: false)
+                    EditoraId = table.Column<int>(type: "int", nullable: false),
+                    QtdeLivro = table.Column<int>(type: "int", nullable: false),
+                    QtdeLimiteLivro = table.Column<int>(type: "int", nullable: false),
+                    EstoqueId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -98,6 +101,12 @@ namespace OmeLi.Migrations
                         column: x => x.EditoraId,
                         principalTable: "Editoras",
                         principalColumn: "EditoraId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Livros_Estoques_EstoqueId",
+                        column: x => x.EstoqueId,
+                        principalTable: "Estoques",
+                        principalColumn: "EstoqueId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Livros_StatusLivros_StatusLivroId",
@@ -127,34 +136,6 @@ namespace OmeLi.Migrations
                         column: x => x.TipoPessoaId,
                         principalTable: "TiposPessoas",
                         principalColumn: "TipoPessoaId",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "LivrosEstoque",
-                columns: table => new
-                {
-                    LivroEstoqueId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    QtdLivro = table.Column<int>(type: "int", nullable: false),
-                    QtdLimiteLivro = table.Column<int>(type: "int", nullable: false),
-                    LivroId = table.Column<int>(type: "int", nullable: false),
-                    EstoqueId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_LivrosEstoque", x => x.LivroEstoqueId);
-                    table.ForeignKey(
-                        name: "FK_LivrosEstoque_Estoques_EstoqueId",
-                        column: x => x.EstoqueId,
-                        principalTable: "Estoques",
-                        principalColumn: "EstoqueId",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_LivrosEstoque_Livros_LivroId",
-                        column: x => x.LivroId,
-                        principalTable: "Livros",
-                        principalColumn: "LivroId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -240,6 +221,11 @@ namespace OmeLi.Migrations
                 });
 
             migrationBuilder.InsertData(
+                table: "Estoques",
+                columns: new[] { "EstoqueId", "DescEstoque", "NomeEstoque", "QtdLimiteEstoque", "QtdLivroEstoque" },
+                values: new object[] { 1, "Estoque de livros padrão", "Estoque de livros", 0, 0 });
+
+            migrationBuilder.InsertData(
                 table: "StatusLivros",
                 columns: new[] { "StatusLivroId", "DescStatusLivroId" },
                 values: new object[,]
@@ -292,19 +278,14 @@ namespace OmeLi.Migrations
                 column: "EditoraId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Livros_StatusLivroId",
+                name: "IX_Livros_EstoqueId",
                 table: "Livros",
-                column: "StatusLivroId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_LivrosEstoque_EstoqueId",
-                table: "LivrosEstoque",
                 column: "EstoqueId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_LivrosEstoque_LivroId",
-                table: "LivrosEstoque",
-                column: "LivroId");
+                name: "IX_Livros_StatusLivroId",
+                table: "Livros",
+                column: "StatusLivroId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_LivrosPessoas_LivroId",
@@ -331,16 +312,10 @@ namespace OmeLi.Migrations
                 name: "EnderecosPessoas");
 
             migrationBuilder.DropTable(
-                name: "LivrosEstoque");
-
-            migrationBuilder.DropTable(
                 name: "LivrosPessoas");
 
             migrationBuilder.DropTable(
                 name: "TiposTelefones");
-
-            migrationBuilder.DropTable(
-                name: "Estoques");
 
             migrationBuilder.DropTable(
                 name: "Livros");
@@ -350,6 +325,9 @@ namespace OmeLi.Migrations
 
             migrationBuilder.DropTable(
                 name: "Editoras");
+
+            migrationBuilder.DropTable(
+                name: "Estoques");
 
             migrationBuilder.DropTable(
                 name: "StatusLivros");

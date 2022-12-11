@@ -12,8 +12,8 @@ using OmeLi.Data;
 namespace OmeLi.Migrations
 {
     [DbContext(typeof(BDContext))]
-    [Migration("20221204182611_MicracaoInicial")]
-    partial class MicracaoInicial
+    [Migration("20221211180635_MigracaoInicial")]
+    partial class MigracaoInicial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -150,6 +150,16 @@ namespace OmeLi.Migrations
                     b.HasKey("EstoqueId");
 
                     b.ToTable("Estoques");
+
+                    b.HasData(
+                        new
+                        {
+                            EstoqueId = 1,
+                            DescEstoque = "Estoque de livros padrão",
+                            NomeEstoque = "Estoque de livros",
+                            QtdLimiteEstoque = 0,
+                            QtdLivroEstoque = 0
+                        });
                 });
 
             modelBuilder.Entity("OmeLi.Models.Livro", b =>
@@ -168,9 +178,18 @@ namespace OmeLi.Migrations
                     b.Property<int>("EditoraId")
                         .HasColumnType("int");
 
+                    b.Property<int>("EstoqueId")
+                        .HasColumnType("int");
+
                     b.Property<string>("NomeLivro")
                         .IsRequired()
                         .HasColumnType("varchar(60)");
+
+                    b.Property<int>("QtdeLimiteLivro")
+                        .HasColumnType("int");
+
+                    b.Property<int>("QtdeLivro")
+                        .HasColumnType("int");
 
                     b.Property<int>("StatusLivroId")
                         .HasColumnType("int");
@@ -179,38 +198,11 @@ namespace OmeLi.Migrations
 
                     b.HasIndex("EditoraId");
 
+                    b.HasIndex("EstoqueId");
+
                     b.HasIndex("StatusLivroId");
 
                     b.ToTable("Livros");
-                });
-
-            modelBuilder.Entity("OmeLi.Models.LivroEstoque", b =>
-                {
-                    b.Property<int>("LivroEstoqueId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("LivroEstoqueId"), 1L, 1);
-
-                    b.Property<int>("EstoqueId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("LivroId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("QtdLimiteLivro")
-                        .HasColumnType("int");
-
-                    b.Property<int>("QtdLivro")
-                        .HasColumnType("int");
-
-                    b.HasKey("LivroEstoqueId");
-
-                    b.HasIndex("EstoqueId");
-
-                    b.HasIndex("LivroId");
-
-                    b.ToTable("LivrosEstoque");
                 });
 
             modelBuilder.Entity("OmeLi.Models.LivroPessoa", b =>
@@ -419,6 +411,12 @@ namespace OmeLi.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("OmeLi.Models.Estoque", "Estoque")
+                        .WithMany("LivrosEstoque")
+                        .HasForeignKey("EstoqueId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("OmeLi.Models.StatusLivro", "StatusLivro")
                         .WithMany("Livros")
                         .HasForeignKey("StatusLivroId")
@@ -427,26 +425,9 @@ namespace OmeLi.Migrations
 
                     b.Navigation("Editora");
 
-                    b.Navigation("StatusLivro");
-                });
-
-            modelBuilder.Entity("OmeLi.Models.LivroEstoque", b =>
-                {
-                    b.HasOne("OmeLi.Models.Estoque", "Estoque")
-                        .WithMany("EstoqueLivros")
-                        .HasForeignKey("EstoqueId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("OmeLi.Models.Livro", "Livro")
-                        .WithMany("LivrosEstoque")
-                        .HasForeignKey("LivroId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Estoque");
 
-                    b.Navigation("Livro");
+                    b.Navigation("StatusLivro");
                 });
 
             modelBuilder.Entity("OmeLi.Models.LivroPessoa", b =>
@@ -486,13 +467,11 @@ namespace OmeLi.Migrations
 
             modelBuilder.Entity("OmeLi.Models.Estoque", b =>
                 {
-                    b.Navigation("EstoqueLivros");
+                    b.Navigation("LivrosEstoque");
                 });
 
             modelBuilder.Entity("OmeLi.Models.Livro", b =>
                 {
-                    b.Navigation("LivrosEstoque");
-
                     b.Navigation("LivrosPessoas");
                 });
 

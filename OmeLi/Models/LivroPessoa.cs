@@ -18,4 +18,5 @@ public class LivroPessoa
     [JsonIgnore]
     public Pessoa Pessoa { get; set; }
 
+    public int StatusAssociacao { get; set; }
 }

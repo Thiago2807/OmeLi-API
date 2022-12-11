@@ -55,6 +55,12 @@ public class LivroController : ControllerBase
             if (livro.DescLivro.Length <= 30)
                 throw new Exception("Descrição do livro inválido");
 
+            Estoque estoque = await _context.Estoques.FirstOrDefaultAsync(es => es.EstoqueId == 1);
+            int QtdeAtualEstoque = estoque.QtdLivroEstoque;
+
+            estoque.QtdLivroEstoque = QtdeAtualEstoque + livro.QtdeLivro;
+
+            _context.Estoques.Update(estoque);
             await _context.Livros.AddAsync(livro);
             await _context.SaveChangesAsync();
 
@@ -122,6 +128,65 @@ public class LivroController : ControllerBase
             }
         }
         catch(Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
+    [HttpPut("AtQtde")]
+    public async Task<ActionResult> AtualizarQtdeEstoque(int idLivro, int qtdeLivro)
+    {
+        try
+        {
+            Livro livro = await _context.Livros.FirstOrDefaultAsync(li => li.LivroId == idLivro);
+            Estoque estoque = await _context.Estoques.FirstOrDefaultAsync(es => es.EstoqueId == 1);
+
+            if (livro is null)
+                return NotFound("Livro não encontrado.");
+
+            int QtdeEstoqueAtual = (estoque.QtdLivroEstoque - livro.QtdeLivro) + qtdeLivro;
+
+            livro.QtdeLivro = qtdeLivro;
+            estoque.QtdLivroEstoque = QtdeEstoqueAtual;
+
+            _context.Estoques.Update(estoque);
+            _context.Livros.Update(livro);
+            await _context.SaveChangesAsync();
+
+            return Ok("Quantidade de livros atualizada com sucesso!");
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+    
+    [HttpDelete]
+    public async Task<ActionResult> ExcluirLivro(int idLivro)
+    {
+        try
+        {
+            Livro livro = await _context.Livros.FirstOrDefaultAsync(li => li.LivroId == idLivro);
+
+            if (livro is null)
+                return NotFound("Livro não encontrado.");
+
+            LivroPessoa livroPessoa = await _context.LivrosPessoas
+                                      .FirstOrDefaultAsync(li => li.LivroId == idLivro && li.StatusAssociacao == 1);
+
+            Pessoa pessoaLivro = await _context.Pessoas.FirstOrDefaultAsync(pe => pe.PessoaId == livroPessoa.PessoaId);
+
+            if (livroPessoa != null)
+                throw new Exception($"Não foi possível excluir um livro" +
+                    $", pois o cliente '{pessoaLivro.NomePessoa} {pessoaLivro.SobrenomePessoa}' está com associada a esse livro" +
+                    $" ,por favor mude os status de associação para continuar.");
+
+            _context.Livros.Remove(livro);
+            await _context.SaveChangesAsync();
+
+            return Ok($"Livro '{livro.NomeLivro}' foi removido com sucesso!");
+        }
+        catch (Exception ex)
         {
             return BadRequest(ex.Message);
         }

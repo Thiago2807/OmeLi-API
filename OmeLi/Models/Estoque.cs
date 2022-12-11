@@ -9,7 +9,7 @@ public class Estoque
 {
     public Estoque()
     {
-        EstoqueLivros = new Collection<LivroEstoque>();
+        LivrosEstoque = new Collection<Livro>();
     }
 
     [Key]
@@ -27,6 +27,5 @@ public class Estoque
 
     public int QtdLimiteEstoque { get; set; }
 
-    [JsonIgnore]
-    public ICollection<LivroEstoque> EstoqueLivros { get; set; }
+    public ICollection<Livro> LivrosEstoque { get; set; }
 }
