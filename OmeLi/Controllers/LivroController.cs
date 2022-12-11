@@ -55,14 +55,13 @@ public class LivroController : ControllerBase
             if (livro.DescLivro.Length <= 30)
                 throw new Exception("Descrição do livro inválido");
 
-            if (livro.QtdeLivro < 0 || livro.QtdeLimiteLivro < 0)
+            if (livro.QtdeLivro < 0)
                 throw new Exception("Quantidade do livro inválida.");
 
             Estoque estoque = await _context.Estoques.FirstOrDefaultAsync(es => es.EstoqueId == 1);
             int QtdeAtualEstoque = estoque.QtdLivroEstoque;
 
             estoque.QtdLivroEstoque = QtdeAtualEstoque + livro.QtdeLivro;
-            estoque.QtdLimiteEstoque = estoque.QtdLimiteEstoque + livro.QtdeLimiteLivro;
 
             _context.Estoques.Update(estoque);
             await _context.Livros.AddAsync(livro);
@@ -164,34 +163,6 @@ public class LivroController : ControllerBase
             return BadRequest(ex.Message);
         }
     }
-
-    [HttpPut("AtQtdeLimite")]
-    public async Task<ActionResult> AtualizarQtdeLimiteLivro(int idLivro, int qtdeLimiteLivro)
-    {
-        try
-        {
-            Livro livro = await _context.Livros.FirstOrDefaultAsync(li => li.LivroId == idLivro);
-            Estoque estoque = await _context.Estoques.FirstOrDefaultAsync(es => es.EstoqueId == 1);
-
-            if (livro is null)
-                return NotFound("Livro não encontrado.");
-
-            int QtdeEstoqueLimiteAtual = (estoque.QtdLimiteEstoque - livro.QtdeLimiteLivro) + qtdeLimiteLivro;
-
-            livro.QtdeLimiteLivro = qtdeLimiteLivro;
-            estoque.QtdLimiteEstoque = QtdeEstoqueLimiteAtual;
-
-            _context.Estoques.Update(estoque);
-            _context.Livros.Update(livro);
-            await _context.SaveChangesAsync();
-
-            return Ok($"Quantidade limite do livro '{livro.NomeLivro}' atualizada com sucesso!");
-        }
-        catch (Exception ex)
-        {
-            return BadRequest(ex.Message);
-        }
-    }
     
     [HttpDelete]
     public async Task<ActionResult> ExcluirLivro(int idLivro)
@@ -215,7 +186,6 @@ public class LivroController : ControllerBase
 
             Estoque estoque = await _context.Estoques.FirstOrDefaultAsync(es => es.EstoqueId == 1);
 
-            estoque.QtdLimiteEstoque = estoque.QtdLimiteEstoque - livro.QtdeLimiteLivro;
             estoque.QtdLivroEstoque = estoque.QtdLivroEstoque - livro.QtdeLivro;
 
             _context.Estoques.Update(estoque);

@@ -19,4 +19,6 @@ public class LivroPessoa
     public Pessoa Pessoa { get; set; }
 
     public int StatusAssociacao { get; set; }
+
+    public DateTime DataDevolucao { get; set; }
 }

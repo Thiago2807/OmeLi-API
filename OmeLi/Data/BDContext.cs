@@ -23,8 +23,7 @@ public class BDContext : DbContext
         modelBuilder.Entity<StatusLivro>().HasData(
             new StatusLivro { StatusLivroId = 1, DescStatusLivroId = "Default" },
             new StatusLivro { StatusLivroId = 2, DescStatusLivroId = "Ativo" },
-            new StatusLivro { StatusLivroId = 3, DescStatusLivroId = "Desativado" },
-            new StatusLivro { StatusLivroId = 4, DescStatusLivroId = "Emprestado" }
+            new StatusLivro { StatusLivroId = 3, DescStatusLivroId = "Indisponível" }
         );
 
         modelBuilder.Entity<TipoTelefone>().HasData(
@@ -42,7 +41,7 @@ public class BDContext : DbContext
 
         modelBuilder.Entity<Estoque>().HasData(
             new Estoque { EstoqueId = 1, DescEstoque = "Estoque de livros padrão",
-                NomeEstoque = "Estoque de livros", QtdLimiteEstoque = 0, QtdLivroEstoque = 0}    
+                NomeEstoque = "Estoque de livros", QtdLivroEstoque = 0}    
         );
     }
 }

@@ -139,9 +139,6 @@ namespace OmeLi.Migrations
                         .IsRequired()
                         .HasColumnType("varchar(60)");
 
-                    b.Property<int>("QtdLimiteEstoque")
-                        .HasColumnType("int");
-
                     b.Property<int>("QtdLivroEstoque")
                         .HasColumnType("int");
 
@@ -155,7 +152,6 @@ namespace OmeLi.Migrations
                             EstoqueId = 1,
                             DescEstoque = "Estoque de livros padrão",
                             NomeEstoque = "Estoque de livros",
-                            QtdLimiteEstoque = 0,
                             QtdLivroEstoque = 0
                         });
                 });
@@ -183,9 +179,6 @@ namespace OmeLi.Migrations
                         .IsRequired()
                         .HasColumnType("varchar(60)");
 
-                    b.Property<int>("QtdeLimiteLivro")
-                        .HasColumnType("int");
-
                     b.Property<int>("QtdeLivro")
                         .HasColumnType("int");
 
@@ -210,6 +203,9 @@ namespace OmeLi.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("LivroPessoaId"), 1L, 1);
+
+                    b.Property<DateTime>("DataDevolucao")
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("LivroId")
                         .HasColumnType("int");
@@ -292,12 +288,7 @@ namespace OmeLi.Migrations
                         new
                         {
                             StatusLivroId = 3,
-                            DescStatusLivroId = "Desativado"
-                        },
-                        new
-                        {
-                            StatusLivroId = 4,
-                            DescStatusLivroId = "Emprestado"
+                            DescStatusLivroId = "Indisponível"
                         });
                 });
 

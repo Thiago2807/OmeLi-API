@@ -33,8 +33,6 @@ public class Livro
 
     public int QtdeLivro { get; set; }
 
-    public int QtdeLimiteLivro { get; set; }
-
     [JsonIgnore]
     public ICollection<LivroPessoa> LivrosPessoas { get; set; }
 

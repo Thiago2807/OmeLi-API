@@ -32,8 +32,7 @@ namespace OmeLi.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     QtdLivroEstoque = table.Column<int>(type: "int", nullable: false),
                     NomeEstoque = table.Column<string>(type: "varchar(60)", nullable: false),
-                    DescEstoque = table.Column<string>(type: "varchar(150)", nullable: true),
-                    QtdLimiteEstoque = table.Column<int>(type: "int", nullable: false)
+                    DescEstoque = table.Column<string>(type: "varchar(150)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -90,7 +89,6 @@ namespace OmeLi.Migrations
                     StatusLivroId = table.Column<int>(type: "int", nullable: false),
                     EditoraId = table.Column<int>(type: "int", nullable: false),
                     QtdeLivro = table.Column<int>(type: "int", nullable: false),
-                    QtdeLimiteLivro = table.Column<int>(type: "int", nullable: false),
                     EstoqueId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -202,7 +200,8 @@ namespace OmeLi.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     LivroId = table.Column<int>(type: "int", nullable: false),
                     PessoaId = table.Column<int>(type: "int", nullable: false),
-                    StatusAssociacao = table.Column<int>(type: "int", nullable: false)
+                    StatusAssociacao = table.Column<int>(type: "int", nullable: false),
+                    DataDevolucao = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -223,8 +222,8 @@ namespace OmeLi.Migrations
 
             migrationBuilder.InsertData(
                 table: "Estoques",
-                columns: new[] { "EstoqueId", "DescEstoque", "NomeEstoque", "QtdLimiteEstoque", "QtdLivroEstoque" },
-                values: new object[] { 1, "Estoque de livros padrão", "Estoque de livros", 0, 0 });
+                columns: new[] { "EstoqueId", "DescEstoque", "NomeEstoque", "QtdLivroEstoque" },
+                values: new object[] { 1, "Estoque de livros padrão", "Estoque de livros", 0 });
 
             migrationBuilder.InsertData(
                 table: "StatusLivros",
@@ -233,8 +232,7 @@ namespace OmeLi.Migrations
                 {
                     { 1, "Default" },
                     { 2, "Ativo" },
-                    { 3, "Desativado" },
-                    { 4, "Emprestado" }
+                    { 3, "Indisponível" }
                 });
 
             migrationBuilder.InsertData(

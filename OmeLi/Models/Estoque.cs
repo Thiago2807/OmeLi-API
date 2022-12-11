@@ -25,7 +25,5 @@ public class Estoque
     [Column(TypeName = "varchar(150)")]
     public string DescEstoque { get; set; }
 
-    public int QtdLimiteEstoque { get; set; }
-
     public ICollection<Livro> LivrosEstoque { get; set; }
 }
