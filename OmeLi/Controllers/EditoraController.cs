@@ -35,6 +35,22 @@ public class EditoraController : ControllerBase
         }
     }
 
+    [HttpGet("EditoraLi")]
+    public async Task<ActionResult> ListarEditoraLivro()
+    {
+        try
+        {
+            List<Editora> editoraLivro = await _context.Editoras
+                                                .Include(li => li.Livros).ToListAsync();
+
+            return Ok(editoraLivro);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
     [HttpPost]
     public async Task<ActionResult> InserirEditora(Editora editora)
     {

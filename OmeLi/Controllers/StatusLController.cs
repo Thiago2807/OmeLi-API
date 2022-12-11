@@ -37,6 +37,8 @@ public class StatusLController : ControllerBase
     [HttpPut]
     public async Task<ActionResult> DefaultStatus(int idStatusAntigo, int idStatusNovo)
     {
+        int contQtdLivro = 0;
+
         try
         {
             StatusLivro status = _context.StatusLivros.FirstOrDefault(sta => sta.StatusLivroId == idStatusAntigo);
@@ -49,13 +51,14 @@ public class StatusLController : ControllerBase
                 Livro liStatus = _context.Livros.FirstOrDefault(li => li.StatusLivroId == idStatusAntigo);
 
                 if (liStatus is null)
-                    return Ok("Informações atualizadas com sucesso!");
+                    return Ok($"{contQtdLivro} livros atualizados com sucesso!");
 
                 liStatus.StatusLivroId = idStatusNovo;
 
                 _context.Livros.Update(liStatus);
                 await _context.SaveChangesAsync();
 
+                contQtdLivro++;
             }
         }
         catch (Exception ex)

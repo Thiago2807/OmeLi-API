@@ -99,23 +99,26 @@ public class LivroController : ControllerBase
     {
         try
         {
-            int cont = 0;
+            int contQtdLivro = 0;
 
             while (true)
             {
                 Livro liEditora = _context.Livros.FirstOrDefault(li => li.EditoraId == idEditoraAntigo);
 
-                if (liEditora is null && cont >= 1)
-                    return Ok($"{cont} livros atualizados com sucesso!");
-                if (liEditora is null && cont == 0)
-                    return Ok("Não existe um livro associado a essa editora.");
+                if (liEditora is null && contQtdLivro >= 1)
+                    return Ok($"{contQtdLivro} livros atualizados com sucesso!");
+                if (liEditora is null && contQtdLivro == 1)
+                    return Ok($"{contQtdLivro} livro atualizado com sucesso!");
+
+                if (liEditora is null && contQtdLivro == 0)
+                    return Ok($"Não existe um livro associado a editora com id '{idEditoraAntigo}'.");
 
                 liEditora.EditoraId = idEditoraNovo;
 
                 _context.Livros.Update(liEditora);
                 await _context.SaveChangesAsync();
 
-                cont++;
+                contQtdLivro++;
             }
         }
         catch(Exception ex)
