@@ -18,9 +18,9 @@ public class ContatoPessoaController : ControllerBase
     {   
         try
         {
-            List<TipoTelefone> tipos = _context.TiposTelefones
+            List<TipoTelefone> tipos = await _context.TiposTelefones
                 .AsNoTracking()
-                .ToList();
+                .ToListAsync();
 
             if (tipos.Count() < 1)
                 return NotFound("Não foi possível encontrar um tipo de telefone.");

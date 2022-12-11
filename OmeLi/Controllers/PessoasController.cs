@@ -14,6 +14,24 @@ public class PessoasController : ControllerBase
     private readonly BDContext _context;
     public PessoasController(BDContext context) { _context = context; }
 
+    [HttpGet("ListarTipoPe")]
+    public async Task<ActionResult> ListarTipoPessoa()
+    {
+        try
+        {
+            ICollection<TipoPessoa> tipoPessoa = await _context.TiposPessoas.AsNoTracking().ToListAsync();
+
+            if (tipoPessoa is null)
+                return NotFound("Não foi possível exibir os tipos de pessoas.");
+
+            return Ok(tipoPessoa);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
     [HttpGet("ListarPer")]
     public async Task<ActionResult> ListarPessoas()
     {
