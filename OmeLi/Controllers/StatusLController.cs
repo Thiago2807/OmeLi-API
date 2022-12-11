@@ -22,9 +22,9 @@ public class StatusLController : ControllerBase
     {
         try
         {
-            var lista = _context.StatusLivros
+            var lista = await _context.StatusLivros
                 .AsNoTracking()
-                .ToList();
+                .ToListAsync();
 
             return Ok(lista);
         }

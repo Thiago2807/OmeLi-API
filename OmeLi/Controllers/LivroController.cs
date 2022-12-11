@@ -15,7 +15,7 @@ public class LivroController : ControllerBase
         _context = context; 
     }
 
-    [HttpGet]
+    [HttpGet("ListLi")]
     public async Task<ActionResult> ListarLivros()
     {
         try
@@ -34,7 +34,7 @@ public class LivroController : ControllerBase
         }
     }
 
-    [HttpPost("InserirLivro")]
+    [HttpPost]
     public async Task<ActionResult> InserirLivro(Livro livro)
     {
         try
@@ -75,7 +75,7 @@ public class LivroController : ControllerBase
         }
     }
 
-    [HttpPut("AtEditora")]
+    [HttpPut("AtEd")]
     public async Task<ActionResult> AtualizarEditora(int idLivro, int idEditora)
     {
         try
@@ -103,7 +103,7 @@ public class LivroController : ControllerBase
         }
     }
 
-    [HttpPut("AtEditoraMassa")]
+    [HttpPut("AtEdMassa")]
     public async Task<ActionResult> AtualizarEditoraMass(int idEditoraAntigo, int idEditoraNovo)
     {
         try

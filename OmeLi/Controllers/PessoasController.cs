@@ -14,7 +14,7 @@ public class PessoasController : ControllerBase
     private readonly BDContext _context;
     public PessoasController(BDContext context) { _context = context; }
 
-    [HttpGet("ListarTipoPe")]
+    [HttpGet("ListTypePe")]
     public async Task<ActionResult> ListarTipoPessoa()
     {
         try
@@ -32,7 +32,7 @@ public class PessoasController : ControllerBase
         }
     }
 
-    [HttpGet("ListarPer")]
+    [HttpGet("ListPer")]
     public async Task<ActionResult> ListarPessoas()
     {
         try
@@ -53,7 +53,7 @@ public class PessoasController : ControllerBase
         }
     }
 
-    [HttpGet("ListarContatoPe/{id:int}")]
+    [HttpGet("ListConPe/{id:int}")]
     public async Task<ActionResult> ConsultarContatoPessoa(int id)
     {
         try
@@ -77,7 +77,7 @@ public class PessoasController : ControllerBase
         }
     }
 
-    [HttpGet("ListarEnderecoPe/{id:int}")]
+    [HttpGet("ListEndPe/{id:int}")]
     public async Task<ActionResult> ListarEnderecoPessoa(int id)
     {
         try
@@ -101,7 +101,7 @@ public class PessoasController : ControllerBase
         }
     }
 
-    [HttpPost("InserirPessoa")]
+    [HttpPost]
     public async Task<ActionResult> InserirPessoa(Pessoa pessoa)
     {
         try
@@ -135,7 +135,7 @@ public class PessoasController : ControllerBase
         }
     }
 
-    [HttpDelete("DeletarPe/{id:int}")]
+    [HttpDelete("{id:int}")]
     public async Task<ActionResult> DeletarPessoa(int id)
     {
         try

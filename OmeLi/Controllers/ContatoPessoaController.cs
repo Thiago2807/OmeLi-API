@@ -13,7 +13,7 @@ public class ContatoPessoaController : ControllerBase
     private readonly BDContext _context;
     public ContatoPessoaController(BDContext context) { _context = context; }
 
-    [HttpGet("ListarTipos")]
+    [HttpGet]
     public async Task<ActionResult> ListarTiposTelefone()
     {   
         try

@@ -12,7 +12,7 @@ public class EstoqueController : ControllerBase
     private readonly BDContext _context;
     public EstoqueController(BDContext context) { _context = context; }
 
-    [HttpGet("ListarLiEstoque")]
+    [HttpGet("ListLiEs")]
     public async Task<ActionResult> ListarLivrosEstoque()
     {
         try
@@ -31,7 +31,7 @@ public class EstoqueController : ControllerBase
         }
     }
 
-    [HttpGet("ConsultarInfoEstoque")]
+    [HttpGet("InfoEstoque")]
     public async Task<ActionResult> ConsultarInfoEstoque()
     {
         try

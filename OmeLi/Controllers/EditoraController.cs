@@ -16,7 +16,7 @@ public class EditoraController : ControllerBase
         _context = context;
     }
 
-    [HttpGet("ListarEdit")]
+    [HttpGet("ListEd")]
     public async Task<ActionResult> ListarEditora()
     {
         try
@@ -35,7 +35,7 @@ public class EditoraController : ControllerBase
         }
     }
 
-    [HttpGet("EditoraLi")]
+    [HttpGet("ListEdLi")]
     public async Task<ActionResult> ListarEditoraLivro()
     {
         try
