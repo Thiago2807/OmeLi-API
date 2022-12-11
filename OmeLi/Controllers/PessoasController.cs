@@ -108,6 +108,12 @@ public class PessoasController : ControllerBase
         {
             Verificar ver = new Verificar();
 
+            Pessoa pessoaCpf = await _context.Pessoas
+                .FirstOrDefaultAsync(pe => pe.CpfPessoa == pessoa.CpfPessoa);
+
+            if (pessoaCpf != null)
+                throw new Exception("Cpf informado já está cadastrado no sistema.");
+
             if ((pessoa.NomePessoa == string.Empty || pessoa.NomePessoa.Length >= 60) ||
                 (pessoa.SobrenomePessoa == string.Empty || pessoa.SobrenomePessoa.Length >= 60))
                 throw new Exception("Nome do fornecedor inválido.");

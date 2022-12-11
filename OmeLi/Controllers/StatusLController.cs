@@ -35,23 +35,23 @@ public class StatusLController : ControllerBase
     }
 
     [HttpPut]
-    public async Task<ActionResult> DefaultStatus(int id)
+    public async Task<ActionResult> DefaultStatus(int idStatusAntigo, int idStatusNovo)
     {
         try
         {
-            StatusLivro status = _context.StatusLivros.FirstOrDefault(sta => sta.StatusLivroId == id);
+            StatusLivro status = _context.StatusLivros.FirstOrDefault(sta => sta.StatusLivroId == idStatusAntigo);
 
             if (status is null)
-                throw new Exception("Não foi possível encontrar um status com esse endereço Id.");
+                throw new Exception("Não foi possível encontrar um status com o Id informado.");
 
             while (true)
             {
-                Livro liStatus = _context.Livros.FirstOrDefault(li => li.StatusLivroId == id);
+                Livro liStatus = _context.Livros.FirstOrDefault(li => li.StatusLivroId == idStatusAntigo);
 
                 if (liStatus is null)
                     return Ok("Informações atualizadas com sucesso!");
 
-                liStatus.StatusLivroId = 1;
+                liStatus.StatusLivroId = idStatusNovo;
 
                 _context.Livros.Update(liStatus);
                 await _context.SaveChangesAsync();
