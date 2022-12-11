@@ -217,6 +217,9 @@ namespace OmeLi.Migrations
                     b.Property<int>("PessoaId")
                         .HasColumnType("int");
 
+                    b.Property<int>("StatusAssociacao")
+                        .HasColumnType("int");
+
                     b.HasKey("LivroPessoaId");
 
                     b.HasIndex("LivroId");

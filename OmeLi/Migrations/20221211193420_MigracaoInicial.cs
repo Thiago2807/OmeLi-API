@@ -201,7 +201,8 @@ namespace OmeLi.Migrations
                     LivroPessoaId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     LivroId = table.Column<int>(type: "int", nullable: false),
-                    PessoaId = table.Column<int>(type: "int", nullable: false)
+                    PessoaId = table.Column<int>(type: "int", nullable: false),
+                    StatusAssociacao = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
