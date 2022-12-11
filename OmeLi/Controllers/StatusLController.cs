@@ -23,12 +23,11 @@ public class StatusLController : ControllerBase
         try
         {
             var lista = await _context.StatusLivros
-                .AsNoTracking()
-                .ToListAsync();
+                         .AsNoTracking().ToListAsync();
 
             return Ok(lista);
         }
-        catch (System.Exception ex)
+        catch (Exception ex)
         {
             return BadRequest(ex.Message);
         }

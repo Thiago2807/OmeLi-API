@@ -37,10 +37,8 @@ public class PessoasController : ControllerBase
     {
         try
         {
-            ICollection<Pessoa> pessoa = await _context.Pessoas
-                                                    .AsNoTracking()
-                                                    .Take(10)
-                                                    .ToListAsync();
+            ICollection<Pessoa> pessoa = await _context.Pessoas.AsNoTracking()
+                                                .Take(10).ToListAsync();
 
             if (pessoa is null)
                 return NotFound("No momento não existe nenhuma pessoa cadastrada.");
