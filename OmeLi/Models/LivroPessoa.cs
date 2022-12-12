@@ -20,5 +20,7 @@ public class LivroPessoa
 
     public int StatusAssociacao { get; set; }
 
+    public int QtdeEmprestada { get; set; }
+
     public DateTime DataDevolucao { get; set; }
 }

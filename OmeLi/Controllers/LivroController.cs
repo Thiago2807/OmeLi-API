@@ -223,6 +223,7 @@ public class LivroController : ControllerBase
             associacao.LivroId = idLivro;
             associacao.PessoaId = idCliente;
             associacao.StatusAssociacao = 2;
+            associacao.QtdeEmprestada = qtde;
             associacao.DataDevolucao = DateTime.Now.AddMonths(1);
 
             int qtdeLivro = livro.QtdeLivro - qtde;
@@ -239,6 +240,43 @@ public class LivroController : ControllerBase
             string mensagem = string.Format("Livro '{0}' foi emprestado para '{1} {2}' " +
                 "A data de devolução é {3:dd} de {3:MMMM} de {3:yyyy}",
                 livro.NomeLivro, cliente.NomePessoa, cliente.SobrenomePessoa, associacao.DataDevolucao);
+
+            return Ok(mensagem);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+    
+    [HttpPost("DevLi")]
+    public async Task<ActionResult> DevolverLivro(int idAssociacao)
+    {
+        try
+        {
+            LivroPessoa livroPessoa = await _context.LivrosPessoas.FirstOrDefaultAsync(lp => lp.LivroPessoaId == idAssociacao);
+
+            if (livroPessoa is null)
+                return NotFound("Não foi possível encontrar.");
+            if (livroPessoa.StatusAssociacao != 2)
+                throw new Exception("Esse livro não pode ser devolvido.");
+
+            livroPessoa.StatusAssociacao = 3;
+
+            Livro livro = await _context.Livros.FirstOrDefaultAsync(li => li.LivroId == livroPessoa.LivroId);
+            Estoque estoque = await _context.Estoques.FirstOrDefaultAsync(es => es.EstoqueId == 1);
+
+            estoque.QtdLivroEstoque = (estoque.QtdLivroEstoque - livro.QtdeLivro) + (livro.QtdeLivro + livroPessoa.QtdeEmprestada);
+            livro.QtdeLivro = livro.QtdeLivro + livroPessoa.QtdeEmprestada;
+
+            _context.LivrosPessoas.Update(livroPessoa);
+            _context.Estoques.Update(estoque);
+            _context.Livros.Update(livro);
+            await _context.SaveChangesAsync();
+
+            string mensagem = string.Format($"Livro '{livro.NomeLivro}' devolvido com sucesso.\n" +
+                $"Estoque atualizado com sucesso!\n" +
+                $"Quantidade de livros atualizados com sucesso!");
 
             return Ok(mensagem);
         }

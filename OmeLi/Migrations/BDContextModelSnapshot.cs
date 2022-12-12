@@ -213,6 +213,9 @@ namespace OmeLi.Migrations
                     b.Property<int>("PessoaId")
                         .HasColumnType("int");
 
+                    b.Property<int>("QtdeEmprestada")
+                        .HasColumnType("int");
+
                     b.Property<int>("StatusAssociacao")
                         .HasColumnType("int");
 

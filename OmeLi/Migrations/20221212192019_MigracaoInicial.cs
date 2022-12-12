@@ -201,6 +201,7 @@ namespace OmeLi.Migrations
                     LivroId = table.Column<int>(type: "int", nullable: false),
                     PessoaId = table.Column<int>(type: "int", nullable: false),
                     StatusAssociacao = table.Column<int>(type: "int", nullable: false),
+                    QtdeEmprestada = table.Column<int>(type: "int", nullable: false),
                     DataDevolucao = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>

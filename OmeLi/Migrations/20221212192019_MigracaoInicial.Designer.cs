@@ -12,7 +12,7 @@ using OmeLi.Data;
 namespace OmeLi.Migrations
 {
     [DbContext(typeof(BDContext))]
-    [Migration("20221211204751_MigracaoInicial")]
+    [Migration("20221212192019_MigracaoInicial")]
     partial class MigracaoInicial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -213,6 +213,9 @@ namespace OmeLi.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("PessoaId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("QtdeEmprestada")
                         .HasColumnType("int");
 
                     b.Property<int>("StatusAssociacao")
