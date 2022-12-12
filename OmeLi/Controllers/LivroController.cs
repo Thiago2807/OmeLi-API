@@ -34,7 +34,7 @@ public class LivroController : ControllerBase
         }
     }
 
-    [HttpPost]
+    [HttpPost("InserirLi")]
     public async Task<ActionResult> InserirLivro(Livro livro)
     {
         try
@@ -193,6 +193,54 @@ public class LivroController : ControllerBase
             await _context.SaveChangesAsync();
 
             return Ok($"Livro '{livro.NomeLivro}' foi removido com sucesso!");
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
+    [HttpPost("EmpreLi")]
+    public async Task<ActionResult> EmpresLivro(int idCliente, int idLivro, int qtde)
+    {
+        try
+        {
+            if (idCliente == 2)
+                throw new Exception("Não será possível emprestar um livro para essa pessoa.");
+
+            Pessoa cliente = await _context.Pessoas.FirstOrDefaultAsync(cli => cli.PessoaId == idCliente);
+            Livro livro = await _context.Livros.FirstOrDefaultAsync(li => li.LivroId == idLivro);
+            Estoque estoque = await _context.Estoques.FirstOrDefaultAsync(es => es.EstoqueId == 1);
+
+            if (livro.QtdeLivro <= 0)
+                throw new Exception($"O livro '{livro.NomeLivro}' estar indisponível no momento, verifique a quantidade.");
+
+            if (livro.StatusLivroId == 3)
+                throw new Exception($"O livro '{livro.NomeLivro}' estar indisponível no momento, verifique o status do livro ");
+
+            LivroPessoa associacao = new LivroPessoa();
+
+            associacao.LivroId = idLivro;
+            associacao.PessoaId = idCliente;
+            associacao.StatusAssociacao = 2;
+            associacao.DataDevolucao = DateTime.Now.AddMonths(1);
+
+            int qtdeLivro = livro.QtdeLivro - qtde;
+            int QtdeEstoqueAtual = (estoque.QtdLivroEstoque - livro.QtdeLivro) + qtdeLivro;
+
+            livro.QtdeLivro = qtdeLivro;
+            estoque.QtdLivroEstoque = QtdeEstoqueAtual;
+
+            await _context.LivrosPessoas.AddAsync(associacao);
+            _context.Estoques.Update(estoque);
+            _context.Livros.Update(livro);
+            await _context.SaveChangesAsync();
+
+            string mensagem = string.Format("Livro '{0}' foi emprestado para '{1} {2}' " +
+                "A data de devolução é {3:dd} de {3:MMMM} de {3:yyyy}",
+                livro.NomeLivro, cliente.NomePessoa, cliente.SobrenomePessoa, associacao.DataDevolucao);
+
+            return Ok(mensagem);
         }
         catch (Exception ex)
         {
