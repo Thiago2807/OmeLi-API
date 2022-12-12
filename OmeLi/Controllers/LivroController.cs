@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using OmeLi.Data;
 using OmeLi.Models;
+using System.Diagnostics.Contracts;
 
 namespace OmeLi.Controllers;
 
@@ -67,7 +68,8 @@ public class LivroController : ControllerBase
             await _context.Livros.AddAsync(livro);
             await _context.SaveChangesAsync();
 
-            return Ok($"Livro cadastrado com sucesso, o seu id é '{livro.LivroId}'.");
+            return Ok($"Livro cadastrado com sucesso, o seu id é '{livro.LivroId}'. " +
+                $"\nQuantidade do estoque atualizada.");
         }
         catch (Exception ex)
         {
@@ -156,7 +158,8 @@ public class LivroController : ControllerBase
             _context.Livros.Update(livro);
             await _context.SaveChangesAsync();
 
-            return Ok("Quantidade de livros atualizada com sucesso!");
+            return Ok("Quantidade de livros atualizada com sucesso!" +
+                "\nQuantidade do estoque atualizada.");
         }
         catch (Exception ex)
         {
@@ -174,15 +177,17 @@ public class LivroController : ControllerBase
             if (livro is null)
                 return NotFound("Livro não encontrado.");
 
-            //LivroPessoa livroPessoa = await _context.LivrosPessoas
-            //.FirstOrDefaultAsync(li => li.LivroId == idLivro && li.StatusAssociacao == 1);
+            LivroPessoa livroPessoa = await _context.LivrosPessoas
+            .FirstOrDefaultAsync(li => li.LivroId == idLivro && li.StatusAssociacao == 2);
 
-            //Pessoa pessoaLivro = await _context.Pessoas.FirstOrDefaultAsync(pe => pe.PessoaId == livroPessoa.PessoaId);
+            if (livroPessoa != null)
+            {
+                Pessoa pessoaLivro = await _context.Pessoas.FirstOrDefaultAsync(pe => pe.PessoaId == livroPessoa.PessoaId);
 
-            //if (livroPessoa != null)
-            //throw new Exception($"Não foi possível excluir um livro" +
-            // $", pois algum cliente está com associada a esse livro" +
-            // $" ,por favor mude os status de associação para continuar.");
+                throw new Exception($"Não foi possível excluir um livro" +
+                     $", pois o cliente '{pessoaLivro.NomePessoa} {pessoaLivro.SobrenomePessoa}'está com associada a esse livro" +
+                     $" ,por favor mude os status de associação para continuar.");
+            }
 
             Estoque estoque = await _context.Estoques.FirstOrDefaultAsync(es => es.EstoqueId == 1);
 
@@ -192,7 +197,8 @@ public class LivroController : ControllerBase
             _context.Livros.Remove(livro);
             await _context.SaveChangesAsync();
 
-            return Ok($"Livro '{livro.NomeLivro}' foi removido com sucesso!");
+            return Ok($"Livro '{livro.NomeLivro}' foi removido com sucesso!" +
+                $"Quantidade do estoque atualizada.");
         }
         catch (Exception ex)
         {
@@ -211,6 +217,9 @@ public class LivroController : ControllerBase
             Pessoa cliente = await _context.Pessoas.FirstOrDefaultAsync(cli => cli.PessoaId == idCliente);
             Livro livro = await _context.Livros.FirstOrDefaultAsync(li => li.LivroId == idLivro);
             Estoque estoque = await _context.Estoques.FirstOrDefaultAsync(es => es.EstoqueId == 1);
+
+            if (livro.QtdeLivro < qtde)
+                throw new Exception($"A quantidade no estoque do livro '{livro.NomeLivro}' é inválida.");
 
             if (livro.QtdeLivro <= 0)
                 throw new Exception($"O livro '{livro.NomeLivro}' estar indisponível no momento, verifique a quantidade.");
@@ -238,7 +247,8 @@ public class LivroController : ControllerBase
             await _context.SaveChangesAsync();
 
             string mensagem = string.Format("Livro '{0}' foi emprestado para '{1} {2}' " +
-                "A data de devolução é {3:dd} de {3:MMMM} de {3:yyyy}",
+                "A data de devolução é {3:dd} de {3:MMMM} de {3:yyyy}" +
+                "\nQuantidade do estoque atualizada.",
                 livro.NomeLivro, cliente.NomePessoa, cliente.SobrenomePessoa, associacao.DataDevolucao);
 
             return Ok(mensagem);
@@ -261,10 +271,12 @@ public class LivroController : ControllerBase
             if (livroPessoa.StatusAssociacao != 2)
                 throw new Exception("Esse livro não pode ser devolvido.");
 
-            livroPessoa.StatusAssociacao = 3;
+            livroPessoa.StatusAssociacao = 1;
 
             Livro livro = await _context.Livros.FirstOrDefaultAsync(li => li.LivroId == livroPessoa.LivroId);
             Estoque estoque = await _context.Estoques.FirstOrDefaultAsync(es => es.EstoqueId == 1);
+
+            livroPessoa.DataDevolucao = DateTime.Now;
 
             estoque.QtdLivroEstoque = (estoque.QtdLivroEstoque - livro.QtdeLivro) + (livro.QtdeLivro + livroPessoa.QtdeEmprestada);
             livro.QtdeLivro = livro.QtdeLivro + livroPessoa.QtdeEmprestada;
@@ -275,12 +287,30 @@ public class LivroController : ControllerBase
             await _context.SaveChangesAsync();
 
             string mensagem = string.Format($"Livro '{livro.NomeLivro}' devolvido com sucesso.\n" +
-                $"Estoque atualizado com sucesso!\n" +
+                $"Quantidade do estoque atualizada.\n" +
                 $"Quantidade de livros atualizados com sucesso!");
 
             return Ok(mensagem);
         }
         catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
+    [HttpGet("ListEmpre")]
+    public async Task<ActionResult> ListarLivrosEmprestados()
+    {
+        try
+        {
+            ICollection<LivroPessoa> livroPessoa = await _context.LivrosPessoas.AsNoTracking().ToListAsync();
+
+            if (livroPessoa is null)
+                return NotFound("Lista de livros emprestados não encontrado.");
+
+            return Ok(livroPessoa);
+        }
+        catch(Exception ex)
         {
             return BadRequest(ex.Message);
         }

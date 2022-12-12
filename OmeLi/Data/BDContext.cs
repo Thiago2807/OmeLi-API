@@ -35,8 +35,7 @@ public class BDContext : DbContext
 
         modelBuilder.Entity<TipoPessoa>().HasData(
             new TipoPessoa { TipoPessoaId = 1, DescTipoPessoa = "Default"},
-            new TipoPessoa { TipoPessoaId = 2, DescTipoPessoa = "Author" },
-            new TipoPessoa { TipoPessoaId = 3, DescTipoPessoa = "Cliente" }
+            new TipoPessoa { TipoPessoaId = 2, DescTipoPessoa = "Cliente" }
         );
 
         modelBuilder.Entity<Estoque>().HasData(
