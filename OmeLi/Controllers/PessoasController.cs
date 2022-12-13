@@ -133,6 +133,27 @@ public class PessoasController : ControllerBase
         }
     }
 
+    [HttpGet("{id:int}")]
+    public async Task<ActionResult> ConsultarPessoa(int id)
+    {
+        try
+        {
+            Pessoa pessoa = await _context.Pessoas.AsNoTracking()
+                .Include(co => co.ContatosPessoas)
+                .Include(end => end.EnderecoPessoa)
+                .FirstOrDefaultAsync(pe => pe.PessoaId == id);
+
+            if (pessoa is null)
+                return NotFound("Não foi possível encontrar a pessoa.");
+
+            return Ok(pessoa);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
     [HttpDelete("{id:int}")]
     public async Task<ActionResult> DeletarPessoa(int id)
     {
