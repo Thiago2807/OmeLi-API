@@ -104,4 +104,23 @@ public class EditoraController : ControllerBase
             return BadRequest(ex.Message);
         }
     }
+
+    [HttpGet("{id:int}")]
+    public async Task<ActionResult> ConsultarEditora(int id)
+    {
+        try
+        {
+            Editora editora = await _context.Editoras.AsNoTracking()
+                .Include(li => li.Livros).FirstOrDefaultAsync(ed => ed.EditoraId == id);
+
+            if (editora is null)
+                return NotFound("Editora não encontrada.");
+
+            return Ok(editora);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
 }

@@ -303,14 +303,50 @@ public class LivroController : ControllerBase
     {
         try
         {
-            ICollection<LivroPessoa> livroPessoa = await _context.LivrosPessoas.AsNoTracking().ToListAsync();
+            List<LivroPessoa> livroPessoa = await _context.LivrosPessoas.AsNoTracking().ToListAsync();
 
             if (livroPessoa is null)
                 return NotFound("Lista de livros emprestados não encontrado.");
 
-            return Ok(livroPessoa);
+            return Ok(livroPessoa.FindAll(li => li.StatusAssociacao == 2));
         }
         catch(Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
+    [HttpGet("ListLiDisp")]
+    public async Task<ActionResult> ListarLivrosDisponiveis()
+    {
+        try
+        {
+            List<Livro> livroDispo = await _context.Livros.AsNoTracking().ToListAsync();
+
+            if (livroDispo is null)
+                throw new Exception("Não foi possível exibir a lista de livros disponíveis.");
+
+            return Ok(livroDispo.FindAll(li => li.QtdeLivro > 0));
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
+    [HttpGet("ListLiIndi")]
+    public async Task<ActionResult> ListarLivrosIndisponiveis()
+    {
+        try
+        {
+            List<Livro> livroDispo = await _context.Livros.AsNoTracking().ToListAsync();
+
+            if (livroDispo is null)
+                throw new Exception("Não foi possível exibir a lista de livros disponíveis.");
+
+            return Ok(livroDispo.FindAll(li => li.QtdeLivro == 0));
+        }
+        catch (Exception ex)
         {
             return BadRequest(ex.Message);
         }
