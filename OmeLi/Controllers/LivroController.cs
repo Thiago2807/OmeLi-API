@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileProviders;
 using OmeLi.Data;
 using OmeLi.Models;
 using System.Diagnostics.Contracts;
@@ -308,7 +309,12 @@ public class LivroController : ControllerBase
             if (livroPessoa is null)
                 return NotFound("Lista de livros emprestados não encontrado.");
 
-            return Ok(livroPessoa.FindAll(li => li.StatusAssociacao == 2));
+            List<LivroPessoa> livroEmpre = livroPessoa.FindAll(li => li.StatusAssociacao == 2);
+
+            if (livroEmpre is null)
+                return NotFound("No momento não existe nenhum livro emprestado.");
+
+            return Ok(livroEmpre);
         }
         catch(Exception ex)
         {
@@ -326,7 +332,12 @@ public class LivroController : ControllerBase
             if (livroDispo is null)
                 throw new Exception("Não foi possível exibir a lista de livros disponíveis.");
 
-            return Ok(livroDispo.FindAll(li => li.QtdeLivro > 0));
+            List<Livro> livroDisponivel = livroDispo.FindAll(li => li.QtdeLivro > 0);
+
+            if (livroDisponivel is null)
+                return NotFound("No momento não existe um livro disponível.");
+
+            return Ok(livroDisponivel);
         }
         catch (Exception ex)
         {
@@ -344,7 +355,12 @@ public class LivroController : ControllerBase
             if (livroDispo is null)
                 throw new Exception("Não foi possível exibir a lista de livros disponíveis.");
 
-            return Ok(livroDispo.FindAll(li => li.QtdeLivro == 0));
+            List<Livro> livroIndisponivel = livroDispo.FindAll(li => li.QtdeLivro == 0);
+
+            if (livroIndisponivel is null)
+                return NotFound("No momento não existe nenhum livro indisponivel.");
+
+            return Ok(livroIndisponivel);
         }
         catch (Exception ex)
         {
