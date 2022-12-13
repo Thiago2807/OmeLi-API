@@ -106,7 +106,7 @@ public class LivroController : ControllerBase
     }
 
     [HttpPut("AtEdMassa")]
-    public async Task<ActionResult> AtualizarEditoraMass(int idEditoraAntigo, int idEditoraNovo)
+    public async Task<ActionResult> AtualizarEditoraMassa(int idEditoraAntigo, int idEditoraNovo)
     {
         try
         {
@@ -139,7 +139,7 @@ public class LivroController : ControllerBase
     }
 
     [HttpPut("AtQtde")]
-    public async Task<ActionResult> AtualizarQtdeEstoque(int idLivro, int qtdeLivro)
+    public async Task<ActionResult> AtualizarQtdeLivro(int idLivro, int qtdeLivro)
     {
         try
         {
@@ -207,7 +207,7 @@ public class LivroController : ControllerBase
     }
 
     [HttpPost("EmpreLi")]
-    public async Task<ActionResult> EmpresLivro(int idCliente, int idLivro, int qtde)
+    public async Task<ActionResult> EmprestarLivro(int idCliente, int idLivro, int qtde)
     {
         try
         {

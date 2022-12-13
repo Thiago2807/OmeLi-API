@@ -40,7 +40,7 @@ public class BDContext : DbContext
 
         modelBuilder.Entity<Estoque>().HasData(
             new Estoque { EstoqueId = 1, DescEstoque = "Estoque de livros padrão",
-                NomeEstoque = "Estoque de livros", QtdLivroEstoque = 0}    
+                NomeEstoque = "Estoque de livros", QtdLivroEstoque = 0}
         );
     }
 }
